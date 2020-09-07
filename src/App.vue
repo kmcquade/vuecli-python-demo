@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <img alt="Vue logo" src="./assets/logo.png">
+<!--            <img alt="Vue logo" src="./assets/logo.png">-->
             <Report account-id="1234"/>
             <ReportMetadata account-id="1234" reportDate="2020-09-07"/>
           </div>
