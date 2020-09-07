@@ -12,3 +12,9 @@ npm install -g @vue/cli
 vue create my-project
 ```
 
+
+23
+
+I use html-webpack-plugin inject the output from Webpack into a index.html file.
+
+Assuming you mean you want to inline all those files into one http request of index.html you can use html-webpack-inline-source-plugin to achieve this.

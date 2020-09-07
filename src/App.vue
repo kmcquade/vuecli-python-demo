@@ -2,8 +2,8 @@
 <!--  Bootstrap-->
 
 <template>
-
   <div id="app">
+  <h1>YOLO MOTHERFUCKER</h1>
     <div class="row">
       <div class="container">
         <div class="row">
