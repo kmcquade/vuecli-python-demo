@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var inlinePolicies = require('./../inline-policies')
+var inlinePolicies = require('./../util/inline-policies')
 
 let mocha = require('mocha');
 let chai = require('chai');

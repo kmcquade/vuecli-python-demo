@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var roles = require('./../roles')
+var roles = require('./../util/roles')
 
 let mocha = require('mocha');
 let chai = require('chai');

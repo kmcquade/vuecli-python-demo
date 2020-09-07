@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var managedPolicies = require('./../managed-policies')
+var managedPolicies = require('./../util/managed-policies')
 
 let mocha = require('mocha');
 let chai = require('chai');
