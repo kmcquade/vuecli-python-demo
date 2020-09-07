@@ -1,4 +1,15 @@
-# my-project
+# vuecli-python-demo
+
+### Instructions
+
+* Add a new file by putting it under src/components/*.vue
+
+* Test by running `npm test`
+
+* If you want to add your own tests, just add it to src/test/*-test.js
+
+
+# Default instructions
 
 ## Project setup
 ```

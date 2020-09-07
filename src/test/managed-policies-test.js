@@ -1,12 +1,10 @@
-var expect = require('chai').expect;
 var managedPolicies = require('./../util/managed-policies')
 
 let mocha = require('mocha');
 let chai = require('chai');
-let describe = mocha.describe;
 const fs = require('fs');
+let rawData = fs.readFileSync(__dirname + '/test-example.json', 'utf8');
 
-let rawData = fs.readFileSync(process.cwd() + '/example.json', 'utf8');
 let iam_data = JSON.parse(rawData);
 
 it("should return Managed policy document object", function() {
