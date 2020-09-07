@@ -22,7 +22,9 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^4.4.1",
+    "inline-chunk-html-plugin": "^1.0.4",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
