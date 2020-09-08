@@ -2,8 +2,8 @@
     <div>
     <h3>{{ managedPolicyType}}-Managed Policies</h3>
     <div v-for="policyId in managedPolicyIds" v-bind:key="policyId">
-        <template v-if="isManagedPolicyLeveraged(policyId) > 0">
-                <template v-if="managedBy(policyId) === managedPolicyType">
+        <template v-if="managedBy(policyId) === managedPolicyType">
+            <template v-if="isManagedPolicyLeveraged(policyId) > 0">
                     <div class="row">
                         <div class="col-md-5">
                             <div class="card">
@@ -16,26 +16,26 @@
                                     <br>
                                     Attached to Principals:
                                     <ul>
-                                        <li v-if="rolesLeveragingManagedPolicy(policyId).length > 0">
+                                        <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'Role').length > 0">
                                             Roles:
                                             <ul>
-                                                <li v-for="role in rolesLeveragingManagedPolicy(policyId)" v-bind:key="role">
+                                                <li v-for="role in principalTypeLeveragingManagedPolicy(policyId, 'Role')" v-bind:key="role">
                                                     {{ role }}
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li v-if="usersLeveragingManagedPolicy(policyId).length > 0">
+                                        <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'User').length > 0">
                                             Users:
                                             <ul>
-                                                <li v-for="user in usersLeveragingManagedPolicy(policyId)" v-bind:key="user">
+                                                <li v-for="user in principalTypeLeveragingManagedPolicy(policyId, 'User')" v-bind:key="user">
                                                     {{ user }}
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li v-if="groupsLeveragingManagedPolicy(policyId).length > 0">
+                                        <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'Group').length > 0">
                                             Groups:
                                             <ul>
-                                                <li v-for="group in groupsLeveragingManagedPolicy(policyId)" v-bind:key="group">
+                                                <li v-for="group in principalTypeLeveragingManagedPolicy(policyId, 'Group')" v-bind:key="group">
                                                     {{ group }}
                                                 </li>
                                             </ul>
@@ -192,17 +192,9 @@
         </div>
 </template>
 
-<!--<template>-->
-<!--    <div>-->
-<!--<pre><code>-->
-<!--{{ JSON.parse(JSON.stringify(iam_data["managed-policies"]["ANPABBBBAAAABBBBAAAA"]["InfrastructureModification"]), undefined, '\t') }}-->
-<!--</code></pre>-->
-<!--    </div>-->
-<!--</template>-->
-
 <script>
 // eslint-disable-next-line no-unused-vars
-var managedPoliciesUtil = require('../util/managed-policies');
+const managedPoliciesUtil = require('../util/managed-policies');
 // eslint-disable-next-line no-unused-vars
 let glossary = require('../util/glossary');
 
@@ -225,9 +217,6 @@ export default {
             },
         },
     methods: {
-        managedPolicyName(policyId) {
-            return managedPoliciesUtil.getManagedPolicyName(this.iam_data, policyId);
-        },
         managedPolicyDocument(policyId) {
             return managedPoliciesUtil.getManagedPolicyDocument(this.iam_data, policyId);
         },
@@ -237,20 +226,11 @@ export default {
         managedBy: function(policyId) {
             return managedPoliciesUtil.managedPolicyManagedBy(this.iam_data, policyId);
         },
-        rolesLeveragingManagedPolicy: function (policyId) {
-            return managedPoliciesUtil.getRolesLeveragingManagedPolicy(this.iam_data, policyId);
-        },
-        usersLeveragingManagedPolicy: function (policyId) {
-            return managedPoliciesUtil.getUsersLeveragingManagedPolicy(this.iam_data, policyId);
-        },
-        groupsLeveragingManagedPolicy: function (policyId) {
-            return managedPoliciesUtil.getGroupsLeveragingManagedPolicy(this.iam_data, policyId);
+        principalTypeLeveragingManagedPolicy: function (policyId, principalType) {
+            return managedPoliciesUtil.getPrincipalTypeLeveragingManagedPolicy(this.iam_data, policyId, principalType);
         },
         isManagedPolicyLeveraged: function (policyId) {
-            let groupCount = managedPoliciesUtil.getGroupsLeveragingManagedPolicy(this.iam_data, policyId).length;
-            let userCount = managedPoliciesUtil.getUsersLeveragingManagedPolicy(this.iam_data, policyId).length;
-            let roleCount = managedPoliciesUtil.getRolesLeveragingManagedPolicy(this.iam_data, policyId).length;
-            return groupCount + userCount + roleCount
+            return managedPoliciesUtil.isManagedPolicyLeveraged(this.iam_data, policyId)
         },
         managedPolicyFindings: function(policyId, riskType) {
             return managedPoliciesUtil.getManagedPolicyFindings(this.iam_data, policyId, riskType);
@@ -258,9 +238,6 @@ export default {
         servicesAffectedByManagedPolicy: function(policyId) {
             return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId)
         },
-        // servicesAffectedByInlinePolicy: function(policyId) {
-        //     return managedPoliciesUtil.getServicesAffectedByInlinePolicy(this.iam_data, policyId)
-        // },
         getRiskDefinition: function(riskType) {
             return glossary.getRiskDefinition(riskType)
         }

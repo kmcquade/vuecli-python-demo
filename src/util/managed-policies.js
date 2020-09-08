@@ -47,6 +47,18 @@ function getServicesAffectedByManagedPolicy(iam_data, policyId) {
     return Array.from(new Set(servicesAffected)).sort();
 }
 
+function getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, principalType){
+    if (principalType === "Role") {
+        return getRolesLeveragingManagedPolicy(iam_data, policyId)
+    }
+    if (principalType === "Group") {
+        return getGroupsLeveragingManagedPolicy(iam_data, policyId)
+    }
+    if (principalType === "User") {
+        return getUsersLeveragingManagedPolicy(iam_data, policyId)
+    }
+}
+
 function getRolesLeveragingManagedPolicy(iam_data, policyId) {
     // Look through roles
     let roles;
@@ -92,9 +104,9 @@ function getGroupsLeveragingManagedPolicy(iam_data, policyId) {
 }
 
 function isManagedPolicyLeveraged(iam_data, policyId) {
-    let groupCount = getGroupsLeveragingManagedPolicy(iam_data, policyId).length;
-    let userCount = getUsersLeveragingManagedPolicy(iam_data, policyId).length;
-    let roleCount = getRolesLeveragingManagedPolicy(iam_data, policyId).length;
+    let groupCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, 'Group').length;
+    let userCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, 'User').length;
+    let roleCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, 'Role').length;
     return groupCount + userCount + roleCount
 }
 
@@ -110,3 +122,4 @@ exports.getUsersLeveragingManagedPolicy = getUsersLeveragingManagedPolicy;
 exports.getGroupsLeveragingManagedPolicy = getGroupsLeveragingManagedPolicy;
 exports.isManagedPolicyLeveraged = isManagedPolicyLeveraged;
 exports.echo = echo;
+exports.getPrincipalTypeLeveragingManagedPolicy = getPrincipalTypeLeveragingManagedPolicy;
