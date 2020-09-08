@@ -107,3 +107,11 @@ it("should identify Groups who have the managed policy attached", function() {
     console.log(`Groups leveraging the managed policy AWSLambdaFullAccess should equal admin: ${JSON.stringify(result)}`);
     chai.assert.deepStrictEqual(result, expectedResult, "lists do not match")
 });
+
+it("should tell us if a policy is leveraged by a role that can be run by a compute service", function() {
+    var result = managedPolicies.managedPolicyAssumableByComputeService(iam_data, "ANPAI6E2CYYMI4XI7AA5K")
+    var expectedResult = ["ec2"]
+    chai.assert(result != null);
+    console.log(`The role called MyOtherRole allows the use of the EC2 service: ${JSON.stringify(result)}`);
+    chai.assert.deepStrictEqual(result, expectedResult, "lists do not match")
+});

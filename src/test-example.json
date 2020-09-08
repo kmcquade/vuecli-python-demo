@@ -28933,7 +28933,12 @@
             ],
             "ResourceExposure": [
                 "s3:PutObjectAcl"
-            ]
+            ],
+            "InfrastructureModification": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject"
+              ]
         }
     }
 }

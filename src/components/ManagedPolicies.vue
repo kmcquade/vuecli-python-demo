@@ -84,14 +84,14 @@
                                              role="alert">Resource Exposure
                                         </div>
                                     </template>
-                                    <!--                                    &lt;!&ndash;Alert for Assumable By Compute Service&ndash;&gt;-->
-                                    <!--                                    <template v-if="managedPolicyFindings(iam_data, policyId, 'AssumableByComputeService').length > 0">-->
-                                    <!--                                        <div class="alert info popovers" data-toggle="popover" data-html="true" data-placement="top"-->
-                                    <!--                                            title="Policy leveraged by Compute Service Role"-->
-                                    <!--                                            data-content="${ glossary.getRiskDefinition('AssumableByComputeService') }"-->
-                                    <!--                                            role="alert">Policy leveraged by Compute Service Role-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </template>-->
+                                    <!--Alert for Assumable By Compute Service-->
+                                    <template v-if="managedPolicyAssumableByComputeService(policyId).length > 0">
+                                        <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
+                                            title="Policy leveraged by Compute Service Role"
+                                            v-bind:data-content="getRiskDefinition('AssumableByComputeService')"
+                                            role="alert">Policy leveraged by Compute Service Role
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                             <br>
@@ -237,6 +237,9 @@ export default {
         },
         servicesAffectedByManagedPolicy: function(policyId) {
             return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId)
+        },
+        managedPolicyAssumableByComputeService: function (policyId) {
+            return managedPoliciesUtil.managedPolicyAssumableByComputeService(this.iam_data, policyId);
         },
         getRiskDefinition: function(riskType) {
             return glossary.getRiskDefinition(riskType)

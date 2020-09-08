@@ -28934,7 +28934,11 @@ let iam_data = {
       "ResourceExposure": [
         "s3:PutObjectAcl"
       ],
-      "InfrastructureModification": []
+      "InfrastructureModification": [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:GetObject"
+      ]
     }
   }
 }

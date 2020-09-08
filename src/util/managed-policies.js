@@ -1,8 +1,5 @@
 'use strict';
-
-function echo(){
-    return "hello"
-}
+var roleUtils = require("./roles")
 
 function getManagedPolicyIds(iam_data) {
     return Object.keys(iam_data["managed-policies"]);
@@ -110,6 +107,28 @@ function isManagedPolicyLeveraged(iam_data, policyId) {
     return groupCount + userCount + roleCount
 }
 
+function managedPolicyAssumableByComputeService(iam_data, policyId) {
+    let roles = getRolesLeveragingManagedPolicy(iam_data, policyId)
+    if (!roles.length > 0){
+        return []
+    }
+    else {
+        let computeServicesAllowed = [];
+        for (let i = 0; i < roles.length; i++) {
+            let trustPolicyDocument = roleUtils.getTrustPolicyDocumentForRole(iam_data, roles[i])
+            let computeServices = roleUtils.trustPolicyAssumableByComputeService(trustPolicyDocument)
+            if (computeServices.length > 0) {
+                for (let j = 0; j < computeServices.length; j++) {
+                    if (!(computeServices[j] in computeServicesAllowed)) {
+                        computeServicesAllowed.push(computeServices[j])
+                    }
+                }
+            }
+        }
+        return computeServicesAllowed
+    }
+}
+
 exports.getManagedPolicyIds = getManagedPolicyIds;
 exports.getManagedPolicy = getManagedPolicy;
 exports.getManagedPolicyDocument = getManagedPolicyDocument;
@@ -121,5 +140,5 @@ exports.getManagedPolicyName = getManagedPolicyName;
 exports.getUsersLeveragingManagedPolicy = getUsersLeveragingManagedPolicy;
 exports.getGroupsLeveragingManagedPolicy = getGroupsLeveragingManagedPolicy;
 exports.isManagedPolicyLeveraged = isManagedPolicyLeveraged;
-exports.echo = echo;
 exports.getPrincipalTypeLeveragingManagedPolicy = getPrincipalTypeLeveragingManagedPolicy;
+exports.managedPolicyAssumableByComputeService = managedPolicyAssumableByComputeService;

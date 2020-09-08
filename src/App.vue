@@ -10,11 +10,12 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h1>YOLO MOTHERFUCKER</h1>
+            <h1>Cloudsplaining</h1>
             <Report account-id="1234"/>
             <ReportMetadata account-id="1234" reportDate="2020-09-07"/>
             <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
             <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+            <InlinePolicies v-bind:iam_data="iam_data"/>
           </div>
         </div>
       </div>
@@ -26,6 +27,7 @@
 import Report from './components/Report.vue'
 import ReportMetadata from './components/ReportMetadata.vue'
 import ManagedPolicies from './components/ManagedPolicies'
+import InlinePolicies from './components/InlinePolicies'
 
 // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
 // if (process.env.DEV_MODE) {
@@ -41,7 +43,8 @@ export default {
     // HelloWorld,
     Report,
     ReportMetadata,
-    ManagedPolicies
+    ManagedPolicies,
+    InlinePolicies
   },
 
   data() {
