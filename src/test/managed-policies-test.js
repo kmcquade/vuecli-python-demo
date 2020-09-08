@@ -3,7 +3,7 @@ var managedPolicies = require('./../util/managed-policies')
 let mocha = require('mocha');
 let chai = require('chai');
 const fs = require('fs');
-let rawData = fs.readFileSync(__dirname + '/test-example.json', 'utf8');
+let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
 
 let iam_data = JSON.parse(rawData);
 

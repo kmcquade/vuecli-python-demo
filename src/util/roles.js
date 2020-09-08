@@ -1,6 +1,6 @@
 'use strict';
-var managedPolicies = require("./managed-policies")
-var inlinePolicies = require("./inline-policies")
+// var managedPolicies = require("./managed-policies")
+// var inlinePolicies = require("./inline-policies")
 const SERVICE_PREFIXES_WITH_COMPUTE_ROLES = ["ec2", "eks", "ecs-tasks", "lambda"]
 
 function getTrustPolicyDocumentForRole(iam_data, roleName) {
@@ -13,7 +13,7 @@ function trustPolicyAssumableByComputeService(assumeRolePolicyDocument) {
     statements = assumeRolePolicyDocument["Statement"]
     for (let i = 0; i < statements.length; i++){
         var statement = statements[i];
-        if (statement.hasOwnProperty("Action")) {
+        if (Object.prototype.hasOwnProperty.call(statement, "Action")){
             if (Array.isArray(statement["Action"])) {
                 if (!("sts:AssumeRole" in statement["Action"])) {
                     return [];
@@ -26,8 +26,8 @@ function trustPolicyAssumableByComputeService(assumeRolePolicyDocument) {
             }
 
         }
-        if (statement.hasOwnProperty("Principal")){
-            if (statement["Principal"].hasOwnProperty("Service")){
+        if (Object.prototype.hasOwnProperty.call(statement, "Action")){
+            if (Object.prototype.hasOwnProperty.call(statement["Principal"], "Service")) {
                 if (Array.isArray(statement["Principal"]["Service"])) {
                     for (let j = 0; j < statement["Principal"]["Service"].length; j++) {
                         let service = statement["Principal"]["Service"][j]

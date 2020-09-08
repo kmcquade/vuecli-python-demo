@@ -26,9 +26,9 @@ module.exports = {
         plugins: [
             new HtmlWebpackInlineSourcePlugin(),
             new HtmlWebpackPlugin({
+                inlineSource: '.(js|css)$', // embed all javascript and css inline
                 inject: true,
                 template: 'public/index.html',  //template file to embed the source
-                inlineSource: '.(js|css)$', // embed all javascript and css inline
                 title: 'Cloudsplaining report',
             }),
         ],

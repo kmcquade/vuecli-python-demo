@@ -1,7 +1,15 @@
 'use strict';
 
+function echo(){
+    return "hello"
+}
+
 function getManagedPolicyIds(iam_data) {
     return Object.keys(iam_data["managed-policies"]);
+}
+
+function getManagedPolicy(iam_data, policyId) {
+    return iam_data["managed-policies"][policyId];
 }
 
 function getManagedPolicyDocument(iam_data, policyId) {
@@ -48,7 +56,7 @@ function getRolesLeveragingManagedPolicy(iam_data, policyId) {
     for (let i = 0; i < roles.length; i++){
         var roleName = roles[i];
         let managedPolicies = iam_data["roles"][roleName]["managed_policies"];
-        if (managedPolicies.hasOwnProperty(policyId)) {
+        if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
             rolesInQuestion.push(roleName);
         }
     }
@@ -62,7 +70,7 @@ function getUsersLeveragingManagedPolicy(iam_data, policyId) {
     for (let i = 0; i < users.length; i++){
         var userName = users[i];
         let managedPolicies = iam_data["users"][userName]["managed_policies"];
-        if (managedPolicies.hasOwnProperty(policyId)) {
+        if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
             usersInQuestion.push(userName);
         }
     }
@@ -76,14 +84,22 @@ function getGroupsLeveragingManagedPolicy(iam_data, policyId) {
     for (let i = 0; i < groups.length; i++){
         var groupName = groups[i];
         let managedPolicies = iam_data["groups"][groupName]["managed_policies"];
-        if (managedPolicies.hasOwnProperty(policyId)) {
+        if (Object.prototype.hasOwnProperty.call(managedPolicies, policyId)) {
             groupsInQuestion.push(groupName);
         }
     }
     return groupsInQuestion
 }
 
+function isManagedPolicyLeveraged(iam_data, policyId) {
+    let groupCount = getGroupsLeveragingManagedPolicy(iam_data, policyId).length;
+    let userCount = getUsersLeveragingManagedPolicy(iam_data, policyId).length;
+    let roleCount = getRolesLeveragingManagedPolicy(iam_data, policyId).length;
+    return groupCount + userCount + roleCount
+}
+
 exports.getManagedPolicyIds = getManagedPolicyIds;
+exports.getManagedPolicy = getManagedPolicy;
 exports.getManagedPolicyDocument = getManagedPolicyDocument;
 exports.getManagedPolicyFindings = getManagedPolicyFindings;
 exports.managedPolicyManagedBy = managedPolicyManagedBy;
@@ -92,3 +108,5 @@ exports.getServicesAffectedByManagedPolicy = getServicesAffectedByManagedPolicy;
 exports.getManagedPolicyName = getManagedPolicyName;
 exports.getUsersLeveragingManagedPolicy = getUsersLeveragingManagedPolicy;
 exports.getGroupsLeveragingManagedPolicy = getGroupsLeveragingManagedPolicy;
+exports.isManagedPolicyLeveraged = isManagedPolicyLeveraged;
+exports.echo = echo;

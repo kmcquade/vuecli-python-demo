@@ -38,7 +38,7 @@ function getRolesLeveragingInlinePolicy(iam_data, policyId) {
     for (let i = 0; i < roles.length; i++){
         let roleName = roles[i];
         let inlinePolicies = iam_data["roles"][roleName]["inline_policies"];
-        if (inlinePolicies.hasOwnProperty(policyId)) {
+        if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
             rolesInQuestion.push(roleName)
         }
     }
