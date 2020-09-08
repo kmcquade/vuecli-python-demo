@@ -6,10 +6,8 @@ from jinja2 import Environment, FileSystemLoader
 __version__ = "0.2.0"
 
 
-
 app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "app.bundle.js")
 vendor_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "chunk-vendors.a60eac2b.js")
-# template_path = os.path.join(os.path.dirname(__file__), "template.html")
 
 
 class HTMLReport:
