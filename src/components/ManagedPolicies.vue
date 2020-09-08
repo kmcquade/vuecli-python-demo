@@ -1,9 +1,9 @@
 <template>
     <div>
-    <h3>{{ managedPolicyType}}-Managed Policies</h3>
-    <div v-for="policyId in managedPolicyIds" v-bind:key="policyId">
-        <template v-if="managedBy(policyId) === managedPolicyType">
-            <template v-if="isManagedPolicyLeveraged(policyId) > 0">
+        <h3>{{ managedPolicyType}}-Managed Policies</h3>
+        <div v-bind:key="policyId" v-for="policyId in managedPolicyIds">
+            <template v-if="managedBy(policyId) === managedPolicyType">
+                <template v-if="isManagedPolicyLeveraged(policyId) > 0">
                     <div class="row">
                         <div class="col-md-5">
                             <div class="card">
@@ -19,7 +19,8 @@
                                         <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'Role').length > 0">
                                             Roles:
                                             <ul>
-                                                <li v-for="role in principalTypeLeveragingManagedPolicy(policyId, 'Role')" v-bind:key="role">
+                                                <li v-bind:key="role"
+                                                    v-for="role in principalTypeLeveragingManagedPolicy(policyId, 'Role')">
                                                     {{ role }}
                                                 </li>
                                             </ul>
@@ -27,7 +28,8 @@
                                         <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'User').length > 0">
                                             Users:
                                             <ul>
-                                                <li v-for="user in principalTypeLeveragingManagedPolicy(policyId, 'User')" v-bind:key="user">
+                                                <li v-bind:key="user"
+                                                    v-for="user in principalTypeLeveragingManagedPolicy(policyId, 'User')">
                                                     {{ user }}
                                                 </li>
                                             </ul>
@@ -35,7 +37,8 @@
                                         <li v-if="principalTypeLeveragingManagedPolicy(policyId, 'Group').length > 0">
                                             Groups:
                                             <ul>
-                                                <li v-for="group in principalTypeLeveragingManagedPolicy(policyId, 'Group')" v-bind:key="group">
+                                                <li v-bind:key="group"
+                                                    v-for="group in principalTypeLeveragingManagedPolicy(policyId, 'Group')">
                                                     {{ group }}
                                                 </li>
                                             </ul>
@@ -57,39 +60,40 @@
                                     <!--Alert for Risk Type: Privilege Escalation Exposure-->
                                     <template
                                             v-if="managedPolicyFindings(policyId, 'PrivilegeEscalation').length > 0">
-                                        <div class="alert alert-danger popovers" data-toggle="popover" data-html="true"
-                                             data-placement="top"
+                                        <div class="alert alert-danger popovers" data-html="true" data-placement="top"
+                                             data-toggle="popover"
+                                             role="alert"
                                              title="Privilege Escalation"
-                                             v-bind:data-content="getRiskDefinition('PrivilegeEscalation')"
-                                             role="alert">Privilege Escalation
+                                             v-bind:data-content="getRiskDefinition('PrivilegeEscalation')">Privilege Escalation
                                         </div>
                                     </template>
                                     <!--Alert for Risk Type: Data Exfiltration Escalation-->
                                     <template
                                             v-if="managedPolicyFindings(policyId, 'DataExfiltration').length > 0">
-                                        <div class="alert alert-warning popovers" data-toggle="popover" data-html="true"
-                                             data-placement="top"
+                                        <div class="alert alert-warning popovers" data-html="true" data-placement="top"
+                                             data-toggle="popover"
+                                             role="alert"
                                              title="Data Exfiltration"
-                                             v-bind:data-content="getRiskDefinition('DataExfiltration')"
-                                             role="alert">Data Exfiltration
+                                             v-bind:data-content="getRiskDefinition('DataExfiltration')">Data Exfiltration
                                         </div>
                                     </template>
                                     <!--Alert for Risk Type: Resource Exposure-->
                                     <template
                                             v-if="managedPolicyFindings(policyId, 'ResourceExposure').length > 0">
-                                        <div class="alert alert-danger popovers" data-toggle="popover" data-html="true"
-                                             data-placement="top"
+                                        <div class="alert alert-danger popovers" data-html="true" data-placement="top"
+                                             data-toggle="popover"
+                                             role="alert"
                                              title="Resource Exposure"
-                                             v-bind:data-content="getRiskDefinition('ResourceExposure')"
-                                             role="alert">Resource Exposure
+                                             v-bind:data-content="getRiskDefinition('ResourceExposure')">Resource Exposure
                                         </div>
                                     </template>
                                     <!--Alert for Assumable By Compute Service-->
                                     <template v-if="managedPolicyAssumableByComputeService(policyId).length > 0">
-                                        <div class="alert alert-info popovers" data-toggle="popover" data-html="true" data-placement="top"
-                                            title="Policy leveraged by Compute Service Role"
-                                            v-bind:data-content="getRiskDefinition('AssumableByComputeService')"
-                                            role="alert">Policy leveraged by Compute Service Role
+                                        <div class="alert alert-info popovers" data-html="true" data-placement="top"
+                                             data-toggle="popover"
+                                             role="alert"
+                                             title="Policy leveraged by Compute Service Role"
+                                             v-bind:data-content="getRiskDefinition('AssumableByComputeService')">Policy leveraged by Compute Service Role
                                         </div>
                                     </template>
                                 </div>
@@ -107,8 +111,8 @@
                                            v-bind:href="'#managed-policy' + '-' + policyId + '-' +'policydocument'"
                                         >Policy Document</a>
                                     </div>
-                                    <div v-bind:id="'managed-policy' + '-' + policyId + '-' +'policydocument'"
-                                         class="panel-collapse collapse">
+                                    <div class="panel-collapse collapse"
+                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'policydocument'">
                                         <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(managedPolicyDocument(policyId), undefined, '\t')) }}
@@ -123,8 +127,8 @@
                                                v-bind:href="'#managed-policy' + '-' + policyId + '-' +'data-exfiltration'"
                                             >Data Exfiltration</a>
                                         </div>
-                                        <div v-bind:id="'managed-policy' + '-' + policyId + '-' +'data-exfiltration'"
-                                             class="panel-collapse collapse">
+                                        <div class="panel-collapse collapse"
+                                             v-bind:id="'managed-policy' + '-' + policyId + '-' +'data-exfiltration'">
                                             <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'DataExfiltration'), undefined, '\t')) }}
@@ -139,8 +143,8 @@
                                            v-bind:href="'#managed-policy' + '-' + policyId + '-' +'infrastructure-modification-actions'"
                                         >Infrastructure Modification Actions</a>
                                     </div>
-                                    <div v-bind:id="'managed-policy' + '-' + policyId + '-' +'infrastructure-modification-actions'"
-                                         class="panel-collapse collapse">
+                                    <div class="panel-collapse collapse"
+                                         v-bind:id="'managed-policy' + '-' + policyId + '-' +'infrastructure-modification-actions'">
                                         <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'InfrastructureModification'), undefined, '\t')) }}
@@ -155,8 +159,8 @@
                                                v-bind:href="'#managed-policy' + '-' + policyId + '-' +'privilege-escalation'"
                                             >Privilege Escalation</a>
                                         </div>
-                                        <div v-bind:id="'managed-policy' + '-' + policyId + '-' +'privilege-escalation'"
-                                             class="panel-collapse collapse">
+                                        <div class="panel-collapse collapse"
+                                             v-bind:id="'managed-policy' + '-' + policyId + '-' +'privilege-escalation'">
                                             <!--TODO: Format the Privilege Escalation stuff-->
                                             <div class="card-body">
 <pre><code>
@@ -173,8 +177,8 @@
                                                v-bind:href="'#managed-policy' + '-' + policyId + '-' +'resource-exposure'"
                                             >Resource Exposure</a>
                                         </div>
-                                        <div v-bind:id="'managed-policy' + '-' + policyId + '-' +'resource-exposure'"
-                                             class="panel-collapse collapse">
+                                        <div class="panel-collapse collapse"
+                                             v-bind:id="'managed-policy' + '-' + policyId + '-' +'resource-exposure'">
                                             <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(managedPolicyFindings(policyId, 'ResourceExposure'), undefined, '\t')) }}
@@ -188,64 +192,64 @@
                     </div>
                 </template>
             </template>
-    </div>
         </div>
+    </div>
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-const managedPoliciesUtil = require('../util/managed-policies');
-// eslint-disable-next-line no-unused-vars
-let glossary = require('../util/glossary');
+    // eslint-disable-next-line no-unused-vars
+    const managedPoliciesUtil = require('../util/managed-policies');
+    // eslint-disable-next-line no-unused-vars
+    let glossary = require('../util/glossary');
 
-export default {
-    name: "ManagedPolicies",
-    props: {
-        iam_data: {
-            type: Object
+    export default {
+        name: "ManagedPolicies",
+        props: {
+            iam_data: {
+                type: Object
+            },
+            managedPolicyType: {
+                type: String
+            },
+            riskDefinitions: {
+                type: String
+            }
         },
-        managedPolicyType: {
-            type: String
-        },
-        riskDefinitions: {
-            type: String
-        }
-    },
-    computed: {
+        computed: {
             managedPolicyIds() {
                 return managedPoliciesUtil.getManagedPolicyIds(this.iam_data);
             },
         },
-    methods: {
-        managedPolicyDocument(policyId) {
-            return managedPoliciesUtil.getManagedPolicyDocument(this.iam_data, policyId);
-        },
-        managedPolicy: function(policyId) {
-            return managedPoliciesUtil.getManagedPolicy(this.iam_data, policyId);
-        },
-        managedBy: function(policyId) {
-            return managedPoliciesUtil.managedPolicyManagedBy(this.iam_data, policyId);
-        },
-        principalTypeLeveragingManagedPolicy: function (policyId, principalType) {
-            return managedPoliciesUtil.getPrincipalTypeLeveragingManagedPolicy(this.iam_data, policyId, principalType);
-        },
-        isManagedPolicyLeveraged: function (policyId) {
-            return managedPoliciesUtil.isManagedPolicyLeveraged(this.iam_data, policyId)
-        },
-        managedPolicyFindings: function(policyId, riskType) {
-            return managedPoliciesUtil.getManagedPolicyFindings(this.iam_data, policyId, riskType);
-        },
-        servicesAffectedByManagedPolicy: function(policyId) {
-            return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId)
-        },
-        managedPolicyAssumableByComputeService: function (policyId) {
-            return managedPoliciesUtil.managedPolicyAssumableByComputeService(this.iam_data, policyId);
-        },
-        getRiskDefinition: function(riskType) {
-            return glossary.getRiskDefinition(riskType)
+        methods: {
+            managedPolicyDocument(policyId) {
+                return managedPoliciesUtil.getManagedPolicyDocument(this.iam_data, policyId);
+            },
+            managedPolicy: function (policyId) {
+                return managedPoliciesUtil.getManagedPolicy(this.iam_data, policyId);
+            },
+            managedBy: function (policyId) {
+                return managedPoliciesUtil.managedPolicyManagedBy(this.iam_data, policyId);
+            },
+            principalTypeLeveragingManagedPolicy: function (policyId, principalType) {
+                return managedPoliciesUtil.getPrincipalTypeLeveragingManagedPolicy(this.iam_data, policyId, principalType);
+            },
+            isManagedPolicyLeveraged: function (policyId) {
+                return managedPoliciesUtil.isManagedPolicyLeveraged(this.iam_data, policyId)
+            },
+            managedPolicyFindings: function (policyId, riskType) {
+                return managedPoliciesUtil.getManagedPolicyFindings(this.iam_data, policyId, riskType);
+            },
+            servicesAffectedByManagedPolicy: function (policyId) {
+                return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId)
+            },
+            managedPolicyAssumableByComputeService: function (policyId) {
+                return managedPoliciesUtil.managedPolicyAssumableByComputeService(this.iam_data, policyId);
+            },
+            getRiskDefinition: function (riskType) {
+                return glossary.getRiskDefinition(riskType)
+            }
         }
     }
-}
 </script>
 
 <style scoped>
