@@ -25,6 +25,7 @@ def get_vendor_bundle_path():
     else:
         return file_list_with_full_path[0]
 
+
 class HTMLReport:
     def __init__(self, account_id, account_name):
         self.account_name = account_name
