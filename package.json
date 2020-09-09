@@ -1,3 +1,4 @@
+
 {
   "name": "my-project",
   "version": "0.1.0",
@@ -12,7 +13,7 @@
     "test": "src/test/"
   },
   "dependencies": {
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.4.1",
     "bootstrap-icons-vue": "^0.1.2",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",

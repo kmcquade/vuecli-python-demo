@@ -14,41 +14,41 @@
             <h1>Cloudsplaining</h1>
 
   <!-- Tabs with card integration -->
-  <b-card no-block>
-    <b-tabs card ref="tabs" content-class="mt-3" fill v-model="tabIndex">
-        <b-tab title="Summary">
-        <Summary account-id="1234"/>
-        </b-tab>
-        <b-tab title="AWS-Managed Policies">
-        <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
-        </b-tab>
-        <b-tab title="Customer-Managed Policies">
-        <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" />
-        </b-tab>
-        <b-tab title="Inline Policies">
-        <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" />
-        </b-tab>
-        <b-tab title="Principals">
-            Principal data should go here.
-        </b-tab>
-        <b-tab title="Definitions">
-        Definitions should go here
-        </b-tab>
-    </b-tabs>
-  </b-card>
-<!--            <tabs :mode="mode">-->
-<!--              <tab title="Summary">-->
-<!--                <Report account-id="1234"/>-->
-<!--              </tab>-->
-<!--              <tab title="AWS-Managed Policies">-->
-<!--                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />-->
-<!--              </tab>-->
-<!--              <tab title="Customer-Managed Policies">-->
-<!--                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>-->
-<!--              </tab>-->
-<!--              <tab title="Inline Policies"><InlinePolicies v-bind:iam_data="iam_data"/></tab>-->
-<!--              <tab title="Definitions">Definitions</tab>-->
-<!--            </tabs>-->
+<!--  <b-card no-block>-->
+<!--    <b-tabs card ref="tabs" content-class="mt-3" fill v-model="tabIndex">-->
+<!--        <b-tab title="Summary">-->
+<!--        <Summary account-id="1234"/>-->
+<!--        </b-tab>-->
+<!--        <b-tab title="AWS-Managed Policies">-->
+<!--        <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />-->
+<!--        </b-tab>-->
+<!--        <b-tab title="Customer-Managed Policies">-->
+<!--        <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" />-->
+<!--        </b-tab>-->
+<!--        <b-tab title="Inline Policies">-->
+<!--        <InlinePolicies v-bind:iam_data="iam_data"/>-->
+<!--        </b-tab>-->
+<!--        <b-tab title="Principals">-->
+<!--        Principal data should go here.-->
+<!--        </b-tab>-->
+<!--        <b-tab title="Definitions">-->
+<!--        Definitions should go here-->
+<!--        </b-tab>-->
+<!--    </b-tabs>-->
+<!--  </b-card>-->
+            <tabs>
+              <tab title="Summary">
+                <Report account-id="1234"/>
+              </tab>
+              <tab title="AWS-Managed Policies">
+                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
+              </tab>
+              <tab title="Customer-Managed Policies">
+                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+              </tab>
+              <tab title="Inline Policies"><InlinePolicies v-bind:iam_data="iam_data"/></tab>
+              <tab title="Definitions">Definitions</tab>
+            </tabs>
           </div>
 <!--        </div>-->
 <!--      </div>-->
