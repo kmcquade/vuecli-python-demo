@@ -39,23 +39,33 @@
                                    href="#nav-principals" role="tab" aria-controls="nav-principals"
                                    aria-selected="false">IAM Principals</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-item nav-link" id="nav-guidance-tab" data-toggle="tab"
+                                   href="#nav-guidance" role="tab" aria-controls="nav-guidance"
+                                   aria-selected="false">Guidance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-item nav-link" id="nav-appendices-tab" data-toggle="tab"
+                                   href="#nav-appendices" role="tab" aria-controls="nav-appendices"
+                                   aria-selected="false">Appendices</a>
+                            </li>
                             <!--GUIDANCE DROPDOWN-->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="nav-guidance-tab" data-toggle="dropdown"
-                                   href="#" role="button" aria-haspopup="true" aria-expanded="false">Guidance</a>
-                                <div class="dropdown-menu">
-                                    <!--Triage Guidance-->
-                                    <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>
-                                </div>
-                            </li>
+<!--                            <li class="nav-item dropdown">-->
+<!--                                <a class="nav-link dropdown-toggle" id="nav-guidance-tab" data-toggle="dropdown"-->
+<!--                                   href="#" role="button" aria-haspopup="true" aria-expanded="false">Guidance</a>-->
+<!--                                <div class="dropdown-menu">-->
+<!--                                    &lt;!&ndash;Triage Guidance&ndash;&gt;-->
+<!--                                    <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>-->
+<!--                                </div>-->
+<!--                            </li>-->
                             <!--APPENDICES DROPDOWN-->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="nav-appendices-tab" data-toggle="dropdown"
-                                   href="#" role="tab" aria-haspopup="true" aria-expanded="false">Appendices</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#appendices"><b>Appendix</b></a>
-                                </div>
-                            </li>
+<!--                            <li class="nav-item dropdown">-->
+<!--                                <a class="nav-link dropdown-toggle" id="nav-appendices-tab" data-toggle="dropdown"-->
+<!--                                   href="#" role="tab" aria-haspopup="true" aria-expanded="false">Appendices</a>-->
+<!--                                <div class="dropdown-menu">-->
+<!--                                    <a class="dropdown-item" href="#appendices"><b>Appendix</b></a>-->
+<!--                                </div>-->
+<!--                            </li>-->
                         </ul><!--/end navbar list-->
                     </div><!-- /end navbar container -->
                 </nav><!-- /end navbar -->
@@ -95,7 +105,14 @@
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
-
+                                <div class="tab-pane fade" id="nav-guidance" role="tabpanel" aria-labelledby="nav-guidance-tab">
+                                    <br>
+                                    Guidance should go here.
+                                </div>
+                                <div class="tab-pane fade" id="nav-appendices" role="tabpanel" aria-labelledby="nav-appendices-tab">
+                                    <br>
+                                    Appendix should go here.
+                                </div>
                             </div><!--/end Tab content-->
                         </div><!--/end data spy-->
 
