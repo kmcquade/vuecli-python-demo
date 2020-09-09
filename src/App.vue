@@ -11,11 +11,19 @@
         <div class="row">
           <div class="col-md-12">
             <h1>Cloudsplaining</h1>
-            <Report account-id="1234"/>
-            <ReportMetadata account-id="1234" reportDate="2020-09-07"/>
-            <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
-            <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
-            <InlinePolicies v-bind:iam_data="iam_data"/>
+            <tabs :mode="mode">
+              <tab title="Summary">
+                <Report account-id="1234"/>
+              </tab>
+              <tab title="AWS-Managed Policies">
+                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
+              </tab>
+              <tab title="Customer-Managed Policies">
+                <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+              </tab>
+              <tab title="Inline Policies"><InlinePolicies v-bind:iam_data="iam_data"/></tab>
+              <tab title="Definitions">Definitions</tab>
+            </tabs>
           </div>
         </div>
       </div>
@@ -24,10 +32,12 @@
 </template>
 <script src="sampleData.js"></script>
 <script>
-import Report from './components/Report.vue'
-import ReportMetadata from './components/ReportMetadata.vue'
-import ManagedPolicies from './components/ManagedPolicies'
+import Report from './components/Report.vue';
+import ReportMetadata from './components/ReportMetadata.vue';
+import ManagedPolicies from './components/ManagedPolicies';
 import InlinePolicies from './components/InlinePolicies'
+import Tab from "./components/Tab.vue";
+import Tabs from "./components/Tabs.vue";
 
 // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
 // if (process.env.DEV_MODE) {
@@ -35,7 +45,7 @@ import InlinePolicies from './components/InlinePolicies'
 
 // import iam_data from '@/sampleData'
 var sampleData = require('./sampleData');
-let iam_data = sampleData.iam_data
+let iam_data = sampleData.iam_data;
 
 export default {
   name: 'App',
@@ -44,18 +54,29 @@ export default {
     Report,
     ReportMetadata,
     ManagedPolicies,
-    InlinePolicies
+    InlinePolicies,
+    Tab,
+    Tabs
   },
 
   data() {
     return {
         sharedState: iam_data,
-        // sharedState: window.__REPORT2__ || {},
+        mode: "dark"
      };
   },
   computed: {
     iam_data() {
       return this.sharedState
+    }
+  },
+  methods: {
+    changeStyle() {
+      if (this.mode === "dark") {
+        this.mode = "light";
+      } else {
+        this.mode = "dark";
+      }
     }
   }
   // delimiters: ['${', '}'],

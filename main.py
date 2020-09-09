@@ -7,8 +7,23 @@ __version__ = "0.2.0"
 
 
 app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "app.bundle.js")
-vendor_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "js", "chunk-vendors.a60eac2b.js")
 
+
+def get_vendor_bundle_path():
+    vendor_bundle_directory = os.path.join(os.path.dirname(__file__), "dist", "js")
+    file_list = [
+        f for f in os.listdir(vendor_bundle_directory) if os.path.isfile(os.path.join(vendor_bundle_directory, f))
+    ]
+    file_list_with_full_path = []
+    for file in file_list:
+        if file.endswith(".js") and file.startswith("chunk-vendors."):
+            file_list_with_full_path.append(
+                os.path.abspath(os.path.join(vendor_bundle_directory, file))
+            )
+    if len(file_list_with_full_path) != 1:
+        raise Exception("There should only be one vendor file in the directory.")
+    else:
+        return file_list_with_full_path[0]
 
 class HTMLReport:
     def __init__(self, account_id, account_name):
@@ -18,6 +33,7 @@ class HTMLReport:
 
         with open(app_bundle_path, "r") as f:
             self.app_bundle = f.read()
+        vendor_bundle_path = get_vendor_bundle_path()
         with open(vendor_bundle_path, "r") as f:
             self.vendor_bundle = f.read()
 

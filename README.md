@@ -33,6 +33,7 @@ python3 main.py
 
 ### TODO
 * Right now, the `App.vue` is configured to just include the `src/sampleData.js`, all the time. We don't want this. We want to be able to load the IAM data results in via Jinja after the fact. Need to figure out the best way to do this.
-* The vendor JS bundle is currently leveraging a randomly generated name. I think this has to do with my webpack config. Need to fix that - we don't want it to be called `chunk-vendors.a60eac2b.js`.
+* The vendor JS bundle is currently leveraging a randomly generated name each time. I think this has to do with my webpack config. Need to fix that - we don't want it to be called `chunk-vendors.a60eac2b.js`.
 * Need to figure out GitHub actions for running the unit tests
 * Need to figure out GitHub actions for verifying that the report is okay on a PR
+* Render the definitions using Vue instead of Jinja2 - this will be cleaner. https://www.npmjs.com/package/vue-simple-markdown
