@@ -35,7 +35,7 @@ python3 main.py
 * Report migration related
   * Principals component
   * Checkbox selection
-  * Navbar
+  * Navbar - DONE
   * DataTables
 * Templating related
     * Right now, the `App.vue` is configured to just include the `src/sampleData.js`, all the time. We don't want this. We want to be able to load the IAM data results in via Jinja after the fact. Need to figure out the best way to do this.
