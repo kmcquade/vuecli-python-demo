@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "bootstrap-icons-vue": "^0.1.2",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
     "jquery": "^3.3.1",

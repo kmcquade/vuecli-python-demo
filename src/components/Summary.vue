@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        name: "Report",
+        name: "Summary",
         props: {
             accountId: String
         }
