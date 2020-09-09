@@ -13,6 +13,7 @@
             <h1>Cloudsplaining</h1>
             <Report account-id="1234"/>
             <ReportMetadata account-id="1234" reportDate="2020-09-07"/>
+            <SelectByRisk />
             <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" />
             <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
             <InlinePolicies v-bind:iam_data="iam_data"/>
@@ -28,6 +29,7 @@ import Report from './components/Report.vue'
 import ReportMetadata from './components/ReportMetadata.vue'
 import ManagedPolicies from './components/ManagedPolicies'
 import InlinePolicies from './components/InlinePolicies'
+import SelectByRisk from './components/SelectByRisk'
 
 // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
 // if (process.env.DEV_MODE) {
@@ -44,18 +46,22 @@ export default {
     Report,
     ReportMetadata,
     ManagedPolicies,
-    InlinePolicies
+    InlinePolicies,
+    SelectByRisk
   },
 
   data() {
     return {
-        sharedState: iam_data,
+        sharedState: {
+          iam_data: iam_data,
+        }
+
         // sharedState: window.__REPORT2__ || {},
-     };
+     }
   },
   computed: {
     iam_data() {
-      return this.sharedState
+      return this.sharedState.iam_data
     }
   }
   // delimiters: ['${', '}'],
