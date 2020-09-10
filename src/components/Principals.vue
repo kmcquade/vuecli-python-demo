@@ -1,7 +1,7 @@
 <template>
 <div>
     <h3>Principals</h3>
-    <div id="iam.roles" v-bind:key="role" v-for="role in roles">
+    <div id="iam.roles" v-bind:key="role" v-for="role in roleNames">
       <div class="row">
       <div v-bind:id="'iam.roles' + '.' + role.id + '.' + 'details'">
         <h4 class="list-group-item-heading list-group-item active role-name">{{ role.name }}</h4>
@@ -16,6 +16,7 @@
           <h4 class="list-group-item-heading">Risks</h4>
           <div class="container">
             <div class="row">
+
               <!--TODO: Have a counter here for the number of risk types -->
             </div>
           </div>
@@ -366,13 +367,31 @@
 </template>
 
 <script>
+    const principalsUtil = require('../util/principals');
+    // eslint-disable-next-line no-unused-vars
+    let glossary = require('../util/glossary');
+
     export default {
       name: "Principals",
       props: {
-        iam_data: {
-            type: Object
+          iam_data: {
+              type: Object
+          },
+          riskDefinitions: {
+              type: Array
+          }
       },
-      }
+      computed: {
+            roleNames() {
+                return principalsUtil.getPrincipalNames(this.iam_data, "Role");
+            },
+            userNames() {
+                return principalsUtil.getPrincipalNames(this.iam_data, "User");
+            },
+            groupNames() {
+                return principalsUtil.getPrincipalNames(this.iam_data, "Group");
+            },
+        },
     }
 </script>
 

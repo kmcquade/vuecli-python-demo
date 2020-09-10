@@ -16,13 +16,18 @@ function getPrincipal(iam_data, principalName, principalType) {
 
 function getPrincipalNames(iam_data, principalType) {
     if (principalType === "Role") {
-        return Object.keys(iam_data["roles"]);
+        let result = Object.keys(iam_data["roles"])
+        return result.sort();
     }
     if (principalType === "Group") {
-        return Object.keys(iam_data["groups"]);
+        let result = Object.keys(iam_data["groups"]);
+        result.sort();
+        return result
     }
     if (principalType === "User") {
-        return Object.keys(iam_data["users"]);
+        let result = Object.keys(iam_data["users"]);
+        result.sort();
+        return result
     }
 }
 
