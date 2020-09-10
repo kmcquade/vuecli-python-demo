@@ -8,8 +8,8 @@ const fs = require('fs');
 let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
 let iam_data = JSON.parse(rawData);
 
-it("principals.getPrincipal: should return principal object", function () {
-    var result = principals.getPrincipal(iam_data, "admin", "Group");
+it("principals.getPrincipalMetadata: should return principal object", function () {
+    var result = principals.getPrincipalMetadata(iam_data, "admin", "Group");
     var expectedResult = {
         "arn": "arn:aws:iam::012345678901:group/admin",
         "create_date": "2017-05-15 17:33:36+00:00",

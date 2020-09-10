@@ -85,7 +85,7 @@
                                 <div class="tab-pane fade" id="nav-principals" role="tabpanel"
                                      aria-labelledby="nav-principals-tab">
                                     <br>
-                                    Principals stuff here
+                                    <Principals v-bind:iam_data="iam_data"/>
                                 </div><!--/end PRINCIPALS TAB-->
                                 <!--CUSTOMER-MANAGED TAB-->
                                 <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel"
@@ -122,12 +122,18 @@
         </div>
     </div>
 </template>
-<script src="sampleData.js"></script>
+<script>
+    import Principals from "../tmp/Principals";
+    export default {
+        components: {Principals}
+    }
+</script>
 <script>
     import Summary from './components/Summary.vue';
     import ReportMetadata from './components/ReportMetadata.vue';
     import ManagedPolicies from './components/ManagedPolicies';
     import InlinePolicies from './components/InlinePolicies'
+    import Principals from './components/Principals'
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
     // if (process.env.DEV_MODE) {
@@ -144,6 +150,7 @@
             ReportMetadata,
             ManagedPolicies,
             InlinePolicies,
+            Principals
         },
 
         data() {

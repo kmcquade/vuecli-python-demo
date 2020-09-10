@@ -2,7 +2,7 @@
 let inlinePolicyUtils = require("./inline-policies");
 let managedPolicyUtils = require("./managed-policies");
 
-function getPrincipal(iam_data, principalName, principalType) {
+function getPrincipalMetadata(iam_data, principalName, principalType) {
     if (principalType === "Role") {
         return iam_data["roles"][principalName]
     }
@@ -86,7 +86,7 @@ function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, 
     return findings;
 }
 
-exports.getPrincipal = getPrincipal;
+exports.getPrincipalMetadata = getPrincipalMetadata;
 exports.getPrincipalNames = getPrincipalNames;
 exports.getPrincipalPolicies = getPrincipalPolicies;
 exports.getRiskAssociatedWithPrincipal = getRiskAssociatedWithPrincipal;
