@@ -212,7 +212,7 @@
                 type: String
             },
             riskDefinitions: {
-                type: String
+                type: Array
             }
         },
         computed: {

@@ -1,6 +1,6 @@
-var managedPolicies = require('./../util/managed-policies')
-
+const managedPolicies = require('./../util/managed-policies');
 let mocha = require('mocha');
+let it = mocha.it;
 let chai = require('chai');
 const fs = require('fs');
 let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');

@@ -35,9 +35,9 @@ python3 main.py
 
 #### Report migration
 * Principals component
-* Checkbox selection - select risk type to display or not display
-* Navbar - DONE
 * DataTables
+* Navbar - DONE
+* Checkbox selection of risk types
 
 #### Templating
 * Templating related

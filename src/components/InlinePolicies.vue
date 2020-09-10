@@ -200,7 +200,7 @@
                 type: Object
             },
             riskDefinitions: {
-                type: String
+                type: Array
             }
         },
         computed: {
