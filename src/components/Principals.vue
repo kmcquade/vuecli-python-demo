@@ -4,7 +4,8 @@
         <br>
         <div>
             <h3>Roles</h3>
-            <div id="iam.roles" v-bind:key="roleName" v-for="roleName in roleNames">
+            <div id="iam.roles">
+            <div v-bind:key="roleName" v-for="roleName in roleNames">
                 <br>
                     <b-container>
                         <b-row class="px-2">
@@ -45,20 +46,64 @@
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleName, 'Role')['arn']}}</dd>
 
+                                        <dt class="col-sm-3">Role Trust Policy</dt>
+                                        <dd class="col-sm-9 text-monospace">
+                                            <b-button size="sm" v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">Details</b-button>
+                                            <b-collapse v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">
+                                                <br>
+                                                <pre><code>{{ JSON.parse(JSON.stringify(getRoleTrustPolicy(roleName))) }}</code></pre>
+                                            </b-collapse>
+                                        </dd>
                                     </dl>
                                 </b-col>
                             </b-row>
+                            <!--Role Trust Policy Group item-->
+                            <br>
+<!--                            <b-row class="px-2">-->
+<!--                                <b-col lg="4">-->
+<!--                                    <h5>Role Trust Policy</h5>-->
+<!--                                    <div class="list-group-item">-->
+<!--                                      <h4 class="list-group-item-heading accordion-heading">Role Trust Policy<a-->
+<!--                                        class="badge float-right btn-info" data-toggle="collapse"-->
+<!--                                        v-bind:href="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'" role="button"-->
+<!--                                        aria-expanded="false"-->
+<!--                                        v-bind:aria-controls="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">Details</a>-->
+<!--                                      </h4>-->
+<!--                                        <div class="collapse" v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">-->
+<!--                                            <div class="card card-body">-->
+<!--                                              <pre><code>{{ JSON.parse(JSON.stringify(getRoleTrustPolicy(roleName))) }}</code></pre>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>&lt;!&ndash;list-group-item&ndash;&gt;-->
+<!--                                </b-col>-->
+<!--                            </b-row>-->
+<!--                            <b-row class="px-2">-->
+<!--                            <b-col lg="4">-->
+                            <div class="list-group-item">
+                              <h4 class="list-group-item-heading accordion-heading">Role Trust Policy<a
+                                class="badge float-right btn-info" data-toggle="collapse"
+                                v-bind:href="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'" role="button"
+                                aria-expanded="false"
+                                v-bind:aria-controls="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">Details</a>
+                              </h4>
+                              <div class="collapse"
+                                   v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">
+                                <div class="card card-body">
+                                  <pre><code>{{ JSON.parse(JSON.stringify('role.assume_role_policy.PolicyDocument')) }}</code></pre>
+                                </div>
+                              </div>
+                            </div>
+<!--                                </b-col>-->
+<!--                            </b-row>-->
                             <br>
                         </b-collapse>
                     </b-container>
                 </div>
 
-                                <!--Role Trust Policy Group item-->
                                 <!--Instance Profiles Group item-->
                                 <!--Inline Policies-->
                                 <!--Managed Policies-->
-<!--                                </div>&lt;!&ndash;role&ndash;&gt;-->
-<!--            </div>&lt;!&ndash;roles&ndash;&gt;-->
+            </div>
         </div><!--iam.roles-->
         <div id="iam.groups">
         </div><!--iam.groups-->
@@ -70,6 +115,7 @@
 
 <script>
     const principalsUtil = require('../util/principals');
+    const rolesUtil = require('../util/roles');
     const otherUtil = require('../util/other');
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
@@ -104,6 +150,9 @@
             },
             getRiskAssociatedWithPrincipal: function (principalName, principalType, riskType) {
                 return principalsUtil.getRiskAssociatedWithPrincipal(this.iam_data, principalName, principalType, riskType)
+            },
+            getRoleTrustPolicy: function(roleName) {
+                return rolesUtil.getTrustPolicyDocumentForRole(this.iam_data, roleName)
             },
             getRiskDefinition: function (riskType) {
                 return glossary.getRiskDefinition(riskType)
