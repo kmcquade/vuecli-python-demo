@@ -8,7 +8,7 @@ const fs = require('fs');
 let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
 let iam_data = JSON.parse(rawData);
 
-it("should return Inline policies with principal", function () {
+it("principals.getPrincipalPolicies: should return Inline policies with principal", function () {
     var result = principals.getPrincipalPolicies(iam_data, "admin", "Group", "Inline");
     var expectedResult = [ '0e1bd3995cfe6cfbbac133f1406839e6b415e5b5a412cd148ac78071d82e5b1b' ]
     // chai.assert(result != null);
@@ -17,7 +17,7 @@ it("should return Inline policies with principal", function () {
 });
 
 
-it("should return risks associated with principal", function () {
+it("principals.getRiskAssociatedWithPrincipal: should return risks associated with principal", function () {
     var result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
     var expectedResult = [
         "s3:BypassGovernanceRetention",
@@ -34,5 +34,5 @@ it("should return risks associated with principal", function () {
     ]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult);
-    console.log(`risks associated with principal: ${JSON.stringify(result)}`);
+    console.log(`ResourceExposure risks associated with principal: ${JSON.stringify(result)}`);
 });

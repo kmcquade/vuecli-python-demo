@@ -10,7 +10,7 @@ let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
 let iam_data = JSON.parse(rawData);
 
 
-it("should return Trust Policy Document for role", function () {
+it("roles.getTrustPolicyDocumentForRole: should return Trust Policy Document for role", function () {
     var result = roles.getTrustPolicyDocumentForRole(iam_data, "MyRole");
     var expectedResult = {
         "Version": "2012-10-17",
@@ -29,7 +29,7 @@ it("should return Trust Policy Document for role", function () {
     console.log(`Trust Policy: ${JSON.stringify(result)}`)
 });
 
-it("should return empty list to show that no compute services can assume this role", function () {
+it("roles.trustPolicyAssumableByComputeService: should return empty list to show that no compute services can assume this role", function () {
     var assumeRolePolicyDocument = {
         "Version": "2012-10-17",
         "Statement": [
@@ -49,7 +49,7 @@ it("should return empty list to show that no compute services can assume this ro
     console.log(`This should be empty: ${result}`)
 });
 
-it("should return list of compute services to show which compute services can assume this role", function () {
+it("roles.trustPolicyAssumableByComputeService: should return list of compute services to show which compute services can assume this role", function () {
     var assumeRolePolicyDocument = {
         "Version": "2012-10-17",
         "Statement": [
