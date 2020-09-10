@@ -2,17 +2,6 @@ const path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
-// module.exports = {
-//   configureWebpack: {
-//     plugins: [
-//       new HtmlWebpackPlugin({
-//         template: 'public/index.html',  //template file to embed the source
-//         inlineSource: '.(js|css)$' // embed all javascript and css inline
-//       }),
-//       new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin)
-//     ]
-//   }
-// }
 module.exports = {
   // options...
   //   indexPath: 'index.html',
@@ -32,13 +21,13 @@ module.exports = {
                 title: 'Cloudsplaining report',
             }),
         ],
-        optimization: {
-            splitChunks: {
-                name: "vendor",
-                chunks: 'async',
-                hidePathInfo: true
-            }
-        }
+        // optimization: {
+        //     // splitChunks: {
+        //     //     name: "vendor",
+        //     //     chunks: 'async',
+        //     //     hidePathInfo: true
+        //     // }
+        // }
     },
     css: { extract: false }
 }
