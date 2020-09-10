@@ -69,6 +69,7 @@
                         </ul><!--/end navbar list-->
                     </div><!-- /end navbar container -->
                 </nav><!-- /end navbar -->
+
                 <div class="row">
                     <div class="col-md-12">
                         <div data-spy="scroll" data-target="#navbar" data-offset="50">
