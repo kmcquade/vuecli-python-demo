@@ -1,6 +1,6 @@
 'use strict';
 let inlinePolicyUtils = require("./inline-policies");
-// let managedPolicyUtils = require("./managed-policies");
+let managedPolicyUtils = require("./managed-policies");
 
 function getPrincipal(iam_data, principalName, principalType) {
     if (principalType === "Role") {
@@ -51,27 +51,34 @@ function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, 
     riskName: DataExfiltration, PrivilegeEscalation, ResourceExposure, InfrastructureModification
      */
     let inlinePolicyIdsAssociatedWithPrincipal = getPrincipalPolicies(iam_data, principalName, principalType, "Inline");
-    // let managedPoliciesAssociatedWithPrincipal = getPrincipalPolicies(iam_data, principalName, principalType, "Managed");
-    let inlinePolicyFindings = [];
-    // let managedPolicyFindings;
-    // NOTE: Will need to merge these and remove duplicates
+    let managedPoliciesAssociatedWithPrincipal = getPrincipalPolicies(iam_data, principalName, principalType, "Managed");
+    let findings = [];
     if (inlinePolicyIdsAssociatedWithPrincipal.length > 0) {
         let policyId;
         for (policyId of inlinePolicyIdsAssociatedWithPrincipal) {
             let theseInlinePolicyFindings = inlinePolicyUtils.getInlinePolicyFindings(iam_data, policyId, riskType);
             let item;
             for (item of theseInlinePolicyFindings) {
-                if (!(item in inlinePolicyFindings)){
-                    inlinePolicyFindings.push(item)
+                if (!(item in findings)){
+                    findings.push(item);
                 }
-                // inlinePolicyFindings.indexOf(item) === -1 ? inlinePolicyFindings.push(item) : console.log("This item already exists");
             }
         }
     }
-    // for (let i = 0; i < inlinePoliciesAssociatedWithPrincipal.count;)
-    // getInlinePolicyFindings(iam_data, policyId, riskType)
-    // getManagedPolicyFindings(iam_data, policyId, riskType)
-    return inlinePolicyFindings;
+    if (managedPoliciesAssociatedWithPrincipal.length > 0) {
+        let policyId;
+        for (policyId of managedPoliciesAssociatedWithPrincipal) {
+            let theseManagedPolicyFindings = managedPolicyUtils.getManagedPolicyFindings(iam_data, policyId, riskType);
+            let item;
+            for (item of theseManagedPolicyFindings) {
+                if (!(item in findings)){
+                    findings.push(item);
+                }
+            }
+        }
+    }
+    findings.sort()
+    return findings;
 }
 
 exports.getPrincipal = getPrincipal;
