@@ -27,7 +27,7 @@ it("principals.getPrincipalMetadata: should return principal object", function (
 
 it("principals.getPrincipalNames: should return a list of principals for a given principal type", function () {
     var result = principals.getPrincipalNames(iam_data, "User");
-    var expectedResult = ["obama", "userWithNoFindings", "userwithlotsofpermissions"]
+    var expectedResult = ["biden", "obama", "userwithlotsofpermissions"]
     chai.assert.deepStrictEqual(result, expectedResult);
     console.log(`Should return the list of users ["obama", "userwithlotsofpermissions"]: ${JSON.stringify(result)}`);
 });
@@ -43,6 +43,7 @@ it("principals.getPrincipalPolicies: should return Inline policies with principa
 it("principals.getRiskAssociatedWithPrincipal: should return risks associated with principal", function () {
     var result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
     chai.assert(result != null);
+    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
     chai.assert(result.length > 290)
     // chai.assert.deepStrictEqual(result, expectedResult);
     console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);

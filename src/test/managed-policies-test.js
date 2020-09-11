@@ -22,7 +22,7 @@ it("managedPolicies.getRolesLeveragingManagedPolicy: should return list of roles
 });
 
 it("managedPolicies.getManagedPolicyFindings: should return Managed policy findings for PrivilegeEscalation", function () {
-    var result = managedPolicies.getManagedPolicyFindings(iam_data, "ANPABBBBAAAABBBBAAAA", "PrivilegeEscalation");
+    var result = managedPolicies.getManagedPolicyFindings(iam_data, "InsecurePolicy", "PrivilegeEscalation");
     var expectedResult = []
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
@@ -30,7 +30,7 @@ it("managedPolicies.getManagedPolicyFindings: should return Managed policy findi
 });
 
 it("managedPolicies.getManagedPolicyFindings: should return Managed policy findings for ResourceExposure", function () {
-    var result = managedPolicies.getManagedPolicyFindings(iam_data, "ANPABBBBAAAABBBBAAAA", "ResourceExposure");
+    var result = managedPolicies.getManagedPolicyFindings(iam_data, "InsecurePolicy", "ResourceExposure");
     var expectedResult = [
         "s3:PutObjectAcl"
     ]
@@ -41,7 +41,7 @@ it("managedPolicies.getManagedPolicyFindings: should return Managed policy findi
 
 it("managedPolicies.getManagedPolicyIds: should print out all managed Policy IDs", function () {
     var result = managedPolicies.getManagedPolicyIds(iam_data)
-    var expectedResult = ["NotYourPolicy","ANPABBBBAAAABBBBAAAA","ANPAI4UIINUVGB5SEC57G","ANPAI3R4QMOG6Q5A4VWVG","ANPAI3VAJF5ZCRZ7MCQE6","ANPAI4VCZ3XPIZLQ5NZV2","ANPAI65L554VRJ33ECQS6","ANPAI6E2CYYMI4XI7AA5K","ANPAI7XKCFMBPM3QQRRVQ","ANPAIFIR6V6BVTRAHWINE","ANPAIICZJNOJN36GTG6CM","ANPAIKEABORKUXN6DEAZU","ANPAILL3HVNFSB6DCOWYQ","ANPAIMHWGGSRHLOQUICJQ","ANPAINAW5ANUWTH3R4ANI","ANPAIONKN3TJZUKXCHXWC","ANPAIQH6ROMVVECFVRJPK","ANPAIQNUJTQYDRJPC3BNK","ANPAIQRXRDRGJUA33ELIO","ANPAIWMBCKSKIEE64ZLYK","ANPAIX2T3QCXHR2OGGCTO","ANPAIZTJ4DXE7G6AGAE6M","ANPAJ2P4NXCHAT7NDPNR4","ANPAJ7W6266ELXF5MISDS","ANPAJBWPGNOVKZD3JI2P2","ANPAJH4QJ2WMHBOB47BUE","ANPAJKSO7NDY4T57MWDSQ","ANPAJLIB4VSBVO47ZSBB6","ANPAJNPP7PPPPMJRV2SA4","ANPAJS2PBJSYV2EZW3MIQ","ANPAJWVDLG5RPST6PHQ3A","ANPAJYRXTHIB4FOVS3ZXS","ANPAZKAPJZG4OV6AFDA5J"]
+    var expectedResult = ["NotYourPolicy","InsecurePolicy","ANPAI4UIINUVGB5SEC57G","ANPAI3R4QMOG6Q5A4VWVG","ANPAI3VAJF5ZCRZ7MCQE6","ANPAI4VCZ3XPIZLQ5NZV2","ANPAI65L554VRJ33ECQS6","ANPAI6E2CYYMI4XI7AA5K","ANPAI7XKCFMBPM3QQRRVQ","ANPAIFIR6V6BVTRAHWINE","ANPAIICZJNOJN36GTG6CM","ANPAIKEABORKUXN6DEAZU","ANPAILL3HVNFSB6DCOWYQ","ANPAIMHWGGSRHLOQUICJQ","ANPAINAW5ANUWTH3R4ANI","ANPAIONKN3TJZUKXCHXWC","ANPAIQH6ROMVVECFVRJPK","ANPAIQNUJTQYDRJPC3BNK","ANPAIQRXRDRGJUA33ELIO","ANPAIWMBCKSKIEE64ZLYK","ANPAIX2T3QCXHR2OGGCTO","ANPAIZTJ4DXE7G6AGAE6M","ANPAJ2P4NXCHAT7NDPNR4","ANPAJ7W6266ELXF5MISDS","ANPAJBWPGNOVKZD3JI2P2","ANPAJH4QJ2WMHBOB47BUE","ANPAJKSO7NDY4T57MWDSQ","ANPAJLIB4VSBVO47ZSBB6","ANPAJNPP7PPPPMJRV2SA4","ANPAJS2PBJSYV2EZW3MIQ","ANPAJWVDLG5RPST6PHQ3A","ANPAJYRXTHIB4FOVS3ZXS","ANPAZKAPJZG4OV6AFDA5J"]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
     console.log(`Managed Policy IDs: ${JSON.stringify(result)}`);
@@ -66,24 +66,18 @@ it("managedPolicies.managedPolicyManagedBy: should identify customer managed pol
 it("managedPolicies.getServicesAffectedByManagedPolicy: should identify list of services affected by the policy findings with no duplicates", function() {
     var result = managedPolicies.getServicesAffectedByManagedPolicy(iam_data, "ANPAI6E2CYYMI4XI7AA5K")
     var expectedResult = [
-        "cloudformation",
-        "cloudwatch",
-        "cognito-identity",
-        "cognito-sync",
-        "dynamodb",
-        "ec2",
-        "events",
-        "iam",
-        "iot",
-        "kinesis",
-        "kms",
-        "lambda",
-        "logs",
-        "s3",
-        "sns",
-        "sqs",
-        "tag",
-        "xray"
+      "cloudwatch",
+      "cognito-sync",
+      "dynamodb",
+      "events",
+      "iam",
+      "iot",
+      "kinesis",
+      "lambda",
+      "logs",
+      "s3",
+      "sns",
+      "sqs"
     ]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult, "lists of services used do not match")

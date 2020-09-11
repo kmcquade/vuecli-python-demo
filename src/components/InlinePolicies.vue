@@ -110,8 +110,24 @@
 </code></pre>
                                 </div>
                             </div><!--Policy Document-->
+                            <!--Assumable by Compute Service-->
+                            <template v-if="inlinePolicyAssumableByComputeService(policyId).length > 0">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse"
+                                       v-bind:data-parent="'#inline-policy' + '-' + policyId + '-' + 'card-details'"
+                                       v-bind:href="'#inline-policy' + '-' + policyId + '-' +'assumable'"
+                                    >Compute Services that leverage this IAM Policy via AssumeRole</a>
+                                </div>
+                                <div class="panel-collapse collapse" v-bind:id="'inline-policy' + '-' + policyId + '-' +'assumable'">
+                                    <div class="card-body">
+<pre><code>
+{{ JSON.parse(JSON.stringify(inlinePolicyAssumableByComputeService(policyId), undefined, '\t')) }}
+</code></pre>
+                                    </div>
+                                </div>
+                            </template><!--Assumable by Compute Service-->
                             <!--Data Exfiltration-->
-                            <div v-if="inlinePolicyFindings(policyId, 'DataExfiltration').length > 0">
+                            <template v-if="inlinePolicyFindings(policyId, 'DataExfiltration').length > 0">
                                 <div class="card-header">
                                     <a class="card-link" data-toggle="collapse"
                                        v-bind:data-parent="'#inline-policy' + '-' + policyId + '-' + 'card-details'"
@@ -126,7 +142,7 @@
 </code></pre>
                                     </div>
                                 </div>
-                            </div><!--Data Exfiltration-->
+                            </template><!--Data Exfiltration-->
                             <!--Infrastructure Modification Actions-->
                             <div class="card-header">
                                 <a class="card-link" data-toggle="collapse"

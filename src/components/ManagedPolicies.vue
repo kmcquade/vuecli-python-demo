@@ -119,6 +119,23 @@
 </code></pre>
                                         </div>
                                     </div><!--Policy Document-->
+                            <!--Assumable by Compute Service-->
+                            <div v-if="managedPolicyAssumableByComputeService(policyId).length > 0">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse"
+                                       v-bind:data-parent="'#managed-policy' + '-' + policyId + '-' + 'card-details'"
+                                       v-bind:href="'#managed-policy' + '-' + policyId + '-' +'assumable'"
+                                    >Compute Services that leverage this IAM Policy via AssumeRole</a>
+                                </div>
+                                <div class="panel-collapse collapse"
+                                     v-bind:id="'managed-policy' + '-' + policyId + '-' +'assumable'">
+                                    <div class="card-body">
+<pre><code>
+{{ JSON.parse(JSON.stringify(managedPolicyAssumableByComputeService(policyId), undefined, '\t')) }}
+</code></pre>
+                                    </div>
+                                </div>
+                            </div><!--Assumable by Compute Service-->
                                     <!--Data Exfiltration-->
                                     <div v-if="managedPolicyFindings(policyId, 'DataExfiltration').length > 0">
                                         <div class="card-header">

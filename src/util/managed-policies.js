@@ -110,6 +110,7 @@ function isManagedPolicyLeveraged(iam_data, policyId) {
 function managedPolicyAssumableByComputeService(iam_data, policyId) {
     let roles = getRolesLeveragingManagedPolicy(iam_data, policyId)
     if (!roles.length > 0){
+        console.log(`computeServicesAllowed: []`)
         return []
     }
     else {
@@ -125,6 +126,7 @@ function managedPolicyAssumableByComputeService(iam_data, policyId) {
                 }
             }
         }
+        console.log(`computeServicesAllowed: ${computeServicesAllowed}`)
         return computeServicesAllowed
     }
 }
