@@ -77,6 +77,15 @@ let iam_data = {
         "ANPAJNPP7PPPPMJRV2SA4": "AWSKeyManagementServicePowerUser",
         "ANPAIZTJ4DXE7G6AGAE6M": "AmazonS3ReadOnlyAccess"
       }
+    },
+    "userWithNoFindings": {
+        "arn": "arn:aws:iam::012345678901:user/userWithNoFindings",
+        "create_date": "2019-12-18 19:10:08+00:00",
+        "id": "userWithNoFindings",
+        "inline_policies": {},
+        "groups": {},
+        "path": "/",
+        "managed_policies": {}
     }
   },
   "roles": {

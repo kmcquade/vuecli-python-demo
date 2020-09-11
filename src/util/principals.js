@@ -1,6 +1,7 @@
 'use strict';
 let inlinePolicyUtils = require("./inline-policies");
 let managedPolicyUtils = require("./managed-policies");
+let otherUtils = require("./other");
 
 function getPrincipalMetadata(iam_data, principalName, principalType) {
     if (principalType === "Role") {
@@ -34,21 +35,23 @@ function getPrincipalNames(iam_data, principalType) {
 function getPrincipalPolicies(iam_data, principalName, principalType, policyType) {
     let thePrincipalType;
     if (principalType === "Role") {
-        thePrincipalType = "roles"
+        thePrincipalType = "roles";
     } else if (principalType === "Group") {
-        thePrincipalType = "groups"
+        thePrincipalType = "groups";
     } else if (principalType === "User") {
-        thePrincipalType = "users"
+        thePrincipalType = "users";
     }
 
     let thePolicyType;
     if (policyType === "Inline") {
-        thePolicyType = "inline_policies"
+        thePolicyType = "inline_policies";
     } else if (policyType === "Managed") {
-        thePolicyType = "managed_policies"
+        thePolicyType = "managed_policies";
     }
-    let policies = iam_data[thePrincipalType][principalName][thePolicyType]
-    return Object.keys(policies)
+    let policies = iam_data[thePrincipalType][principalName][thePolicyType];
+    let result = Object.keys(policies);
+    result.sort()
+    return result
 }
 
 function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, riskType) {
@@ -82,7 +85,8 @@ function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, 
             }
         }
     }
-    findings.sort()
+    findings.sort();
+    findings = otherUtils.removeDuplicatesFromArray(findings)
     return findings;
 }
 
