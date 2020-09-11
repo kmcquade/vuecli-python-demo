@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">
-                        <h6 class="card-header" v-bind:id="'inline-policy' + '-' + policyId + 'card'">
+                        <h6 class="card-header" v-bind:id="'inline-policy' + '.' + policyId + '.' + 'card'">
                             Name: {{ inlinePolicy(policyId).PolicyName }}
                             <br>
                             <br>

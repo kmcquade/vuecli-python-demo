@@ -46,61 +46,51 @@
                                         <dt class="col-sm-3">ARN</dt>
                                         <dd class="col-sm-9 text-monospace">{{getPrincipalMetadata(roleName, 'Role')['arn']}}</dd>
 
+                                        <dt class="col-sm-3">Inline Policies</dt>
+                                        <dd class="col-sm-9">
+                                            <b-button size="sm" v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">{{ getPrincipalPolicyNames(roleName, "Role", "Inline").length }}</b-button>
+                                            <b-collapse v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'inline-policies' + '.' + 'collapse'">
+                                                <br>
+                                                <pre><code>{{ getPrincipalPolicyNames(roleName, "Role", "Inline") }}</code></pre>
+                                            </b-collapse>
+                                        </dd>
+
+                                        <dt class="col-sm-3">Managed Policies</dt>
+                                        <dd class="col-sm-9">
+                                            <b-button size="sm" v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'managed-policies' + '.' + 'collapse'">{{ getPrincipalPolicyNames(roleName, "Role", "Managed").length }}</b-button>
+                                            <b-collapse v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'managed-policies' + '.' + 'collapse'">
+                                                <br>
+                                                <pre><code>{{ getPrincipalPolicyNames(roleName, "Role", "Managed") }}</code></pre>
+                                            </b-collapse>
+                                        </dd>
+
                                         <dt class="col-sm-3">Role Trust Policy</dt>
-                                        <dd class="col-sm-9 text-monospace">
+                                        <dd class="col-sm-9">
                                             <b-button size="sm" v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">Details</b-button>
                                             <b-collapse v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'role-trust-policy' + '.' + 'collapse'">
                                                 <br>
                                                 <pre><code>{{ JSON.parse(JSON.stringify(getRoleTrustPolicy(roleName))) }}</code></pre>
                                             </b-collapse>
                                         </dd>
+                                        <!--Instance Profiles-->
+                                        <dt class="col-sm-3">Instance Profiles</dt>
+                                        <dd class="col-sm-9">
+                                            <b-button size="sm" v-b-toggle="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'instance-profiles' + '.' + 'collapse'">
+                                                {{ getPrincipalMetadata(roleName, 'Role')['instance_profiles'].length }}</b-button>
+                                            <b-collapse v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'instance-profiles' + '.' + 'collapse'">
+                                                <br>
+                                                <pre><code>{{ JSON.parse(JSON.stringify(getPrincipalMetadata(roleName, 'Role')['instance_profiles'])) }}</code></pre>
+                                            </b-collapse>
+                                        </dd>
                                     </dl>
                                 </b-col>
                             </b-row>
-                            <!--Role Trust Policy Group item-->
                             <br>
-<!--                            <b-row class="px-2">-->
-<!--                                <b-col lg="4">-->
-<!--                                    <h5>Role Trust Policy</h5>-->
-<!--                                    <div class="list-group-item">-->
-<!--                                      <h4 class="list-group-item-heading accordion-heading">Role Trust Policy<a-->
-<!--                                        class="badge float-right btn-info" data-toggle="collapse"-->
-<!--                                        v-bind:href="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'" role="button"-->
-<!--                                        aria-expanded="false"-->
-<!--                                        v-bind:aria-controls="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">Details</a>-->
-<!--                                      </h4>-->
-<!--                                        <div class="collapse" v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">-->
-<!--                                            <div class="card card-body">-->
-<!--                                              <pre><code>{{ JSON.parse(JSON.stringify(getRoleTrustPolicy(roleName))) }}</code></pre>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>&lt;!&ndash;list-group-item&ndash;&gt;-->
-<!--                                </b-col>-->
-<!--                            </b-row>-->
-<!--                            <b-row class="px-2">-->
-<!--                            <b-col lg="4">-->
-                            <div class="list-group-item">
-                              <h4 class="list-group-item-heading accordion-heading">Role Trust Policy<a
-                                class="badge float-right btn-info" data-toggle="collapse"
-                                v-bind:href="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'" role="button"
-                                aria-expanded="false"
-                                v-bind:aria-controls="'#iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">Details</a>
-                              </h4>
-                              <div class="collapse"
-                                   v-bind:id="'iam.roles' + '.' + getPrincipalMetadata(roleName, 'Role')['id'] + '.' + 'assume_role_policy'">
-                                <div class="card card-body">
-                                  <pre><code>{{ JSON.parse(JSON.stringify('role.assume_role_policy.PolicyDocument')) }}</code></pre>
-                                </div>
-                              </div>
-                            </div>
-<!--                                </b-col>-->
-<!--                            </b-row>-->
                             <br>
                         </b-collapse>
                     </b-container>
                 </div>
 
-                                <!--Instance Profiles Group item-->
                                 <!--Inline Policies-->
                                 <!--Managed Policies-->
             </div>
@@ -115,6 +105,8 @@
 
 <script>
     const principalsUtil = require('../util/principals');
+    const managedPoliciesUtil = require('../util/managed-policies');
+    const inlinePoliciesUtil = require('../util/inline-policies');
     const rolesUtil = require('../util/roles');
     const otherUtil = require('../util/other');
     // eslint-disable-next-line no-unused-vars
@@ -159,6 +151,21 @@
             },
             addSpacesInPascalCaseString: function (s) {
                 return otherUtil.addSpacesInPascalCaseString(s)
+            },
+            getPrincipalPolicyNames: function (principalName, principalType, policyType) {
+                let policyNames = [];
+                let policies = principalsUtil.getPrincipalPolicies(this.iam_data, principalName, principalType, policyType);
+                let policyId;
+                if ( policyType === "Inline") {
+                    for (policyId in policies) {
+                        policyNames.push(inlinePoliciesUtil.getInlinePolicy(this.iam_data, policies[policyId])["PolicyName"])
+                    }
+                } else if ( policyType === "Managed") {
+                    for (policyId in policies) {
+                        policyNames.push(managedPoliciesUtil.getManagedPolicyName(this.iam_data, policies[policyId]))
+                    }
+                }
+                return policyNames;
             },
             getRiskLevel: function(riskType) {
                 if (riskType === "DataExfiltration") {
