@@ -1,12 +1,10 @@
 var principals = require('./../util/principals')
 
+var sampleData = require('./../sampleData');
 let mocha = require('mocha');
 let chai = require('chai');
 let it = mocha.it;
-const fs = require('fs');
-
-let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
-let iam_data = JSON.parse(rawData);
+let iam_data = sampleData.iam_data;
 
 it("principals.getPrincipalMetadata: should return principal object", function () {
     var result = principals.getPrincipalMetadata(iam_data, "admin", "Group");

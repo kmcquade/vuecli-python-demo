@@ -1,13 +1,11 @@
 // var expect = require('chai').expect;
 var groups = require('./../util/groups')
+var sampleData = require('./../sampleData')
 
 let mocha = require('mocha');
 let chai = require('chai');
-const fs = require('fs');
 let it = mocha.it;
-
-let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
-let iam_data = JSON.parse(rawData);
+let iam_data = sampleData.iam_data;
 
 
 it("groups.getGroupNames: should return list of group names", function () {

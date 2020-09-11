@@ -1,11 +1,9 @@
 const managedPolicies = require('./../util/managed-policies');
+var sampleData = require('./../sampleData');
 let mocha = require('mocha');
-let it = mocha.it;
 let chai = require('chai');
-const fs = require('fs');
-let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
-
-let iam_data = JSON.parse(rawData);
+let it = mocha.it;
+let iam_data = sampleData.iam_data;
 
 it("managedPolicies.getManagedPolicyDocument: should return Managed policy document object", function() {
     var result = managedPolicies.getManagedPolicyDocument(iam_data, "NotYourPolicy");

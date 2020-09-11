@@ -1,13 +1,10 @@
 // var expect = require('chai').expect;
-var roles = require('./../util/roles')
-
+var roles = require('./../util/roles');
+var sampleData = require('./../sampleData');
 let mocha = require('mocha');
 let chai = require('chai');
-const fs = require('fs');
 let it = mocha.it;
-
-let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
-let iam_data = JSON.parse(rawData);
+let iam_data = sampleData.iam_data;
 
 
 it("roles.getTrustPolicyDocumentForRole: should return Trust Policy Document for role", function () {

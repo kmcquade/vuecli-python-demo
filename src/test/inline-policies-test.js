@@ -1,12 +1,9 @@
 var inlinePolicies = require('./../util/inline-policies')
-
+var sampleData = require('./../sampleData');
 let mocha = require('mocha');
 let chai = require('chai');
 let it = mocha.it;
-const fs = require('fs');
-
-let rawData = fs.readFileSync(__dirname + '/../test-example.json', 'utf8');
-let iam_data = JSON.parse(rawData);
+let iam_data = sampleData.iam_data;
 
 it("inlinePolicies.getInlinePolicyDocument: should return Inline policy document object", function () {
     var result = inlinePolicies.getInlinePolicyDocument(iam_data, "0e1bd3995cfe6cfbbac133f1406839e6b415e5b5a412cd148ac78071d82e5b1b");
