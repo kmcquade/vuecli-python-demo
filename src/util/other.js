@@ -8,4 +8,15 @@ function addSpacesInPascalCaseString(string) {
     return string;
 }
 
+function removeDuplicatesFromArray(someArray) {
+    let uniqueArray = [];
+    someArray.forEach((c) => {
+        if (!uniqueArray.includes(c)) {
+            uniqueArray.push(c);
+        }
+    });
+    return uniqueArray;
+}
+
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
+exports.removeDuplicatesFromArray = removeDuplicatesFromArray;
