@@ -35,8 +35,11 @@ python3 main.py
 
 #### Report migration
 * Principals component
+  * _Roles - DONE_
+  * Groups - TODO
+  * Users - TODO
 * DataTables
-* Navbar - DONE
+* _Navbar - DONE_
 * Checkbox selection of risk types
 
 #### Templating
