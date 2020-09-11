@@ -1,5 +1,5 @@
 'use strict';
-var roleUtils = require("./roles")
+let roleUtils = require("./roles");
 
 function getInlinePolicyIds(iam_data) {
     return Object.keys(iam_data["inline-policies"]);
