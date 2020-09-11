@@ -1,0 +1,9 @@
+The following table shows a list of IAM Policies that are currently used in the account. This report shows [Customer-Managed Policies](#customer-managed-policy), [Inline Policies](#inline-policy), and [AWS-Managed Policies](#aws-managed-policy).
+
+If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - [Privilege Escalation](#privilege-escalation "Privilege Escalation"), [Resource Exposure](#resource-exposure "Resource Exposure"), [Infrastructure Modification](#infrastructure-modification "Infrastructure Modification"), and [Data Exfiltration](#data-exfiltration "Data Exfiltration") - then the number of occurrences per-policy and per-risk is included in the table. **If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.**
+
+If an IAM Role leverages the given policy and is leveraged [by a Compute Service](#roles-assumable-by-compute-services) - like EC2 Instance Profiles for `ec2`, `ecs-tasks`, `lambda`, or `eks` - then that is indicated in the table as well.
+
+Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the [Prioritization Guidance](#remediation-prioritization) and [Triaging Considerations](#triage-triaging-considerations). Consider using all of the Guidance criteria when reviewing this report as well.
+
+Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the [Exclusions configuration](#exclusions) to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the [IAM Principals Tab](#nav-principals).

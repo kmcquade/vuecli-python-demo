@@ -2,6 +2,9 @@
     <div>
         <h2>Principals</h2>
         <br>
+        This page displays IAM Users, Groups, and Roles in the account, their associated policies, the risks associated with each principal, and various metadata that can be expanded per principal.
+        <br>
+        <br>
         <!--ROLES-->
         <h3>Roles</h3>
             <div id="iam.roles">

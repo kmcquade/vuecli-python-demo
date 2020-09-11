@@ -2,7 +2,17 @@
 var roleUtils = require("./roles")
 
 function getManagedPolicyIds(iam_data) {
-    return Object.keys(iam_data["managed-policies"]);
+    // console.log(`managed policy IDs: ${Object.keys(iam_data["managed-policies"])}`)
+    let result = [];
+    try{
+        result = Object.keys(iam_data["managed-policies"]);
+    }
+    catch(TypeError) {
+        result = [];
+        console.log(`TypeError on ${result}`)
+    }
+    // return Object.keys(iam_data["managed-policies"]);
+    return result;
 }
 
 function getManagedPolicy(iam_data, policyId) {
@@ -110,7 +120,7 @@ function isManagedPolicyLeveraged(iam_data, policyId) {
 function managedPolicyAssumableByComputeService(iam_data, policyId) {
     let roles = getRolesLeveragingManagedPolicy(iam_data, policyId)
     if (!roles.length > 0){
-        console.log(`computeServicesAllowed: []`)
+        // console.log(`computeServicesAllowed by ${policyId}: []`)
         return []
     }
     else {
@@ -126,7 +136,7 @@ function managedPolicyAssumableByComputeService(iam_data, policyId) {
                 }
             }
         }
-        console.log(`computeServicesAllowed: ${computeServicesAllowed}`)
+        // console.log(`computeServicesAllowed by ${policyId}: ${computeServicesAllowed}`)
         return computeServicesAllowed
     }
 }
