@@ -29,7 +29,7 @@ it("principals.getPrincipalMetadata: should return principal object", function (
 
 it("principals.getPrincipalNames: should return a list of principals for a given principal type", function () {
     var result = principals.getPrincipalNames(iam_data, "User");
-    var expectedResult = ["obama", "userwithlotsofpermissions"]
+    var expectedResult = ["obama", "userWithNoFindings", "userwithlotsofpermissions"]
     chai.assert.deepStrictEqual(result, expectedResult);
     console.log(`Should return the list of users ["obama", "userwithlotsofpermissions"]: ${JSON.stringify(result)}`);
 });
@@ -44,21 +44,8 @@ it("principals.getPrincipalPolicies: should return Inline policies with principa
 
 it("principals.getRiskAssociatedWithPrincipal: should return risks associated with principal", function () {
     var result = principals.getRiskAssociatedWithPrincipal(iam_data, "admin", "Group", "ResourceExposure");
-    // var expectedResult = [
-    //     "s3:BypassGovernanceRetention",
-    //     "s3:DeleteAccessPointPolicy",
-    //     "s3:DeleteBucketPolicy",
-    //     "s3:ObjectOwnerOverrideToBucketOwner",
-    //     "s3:PutAccessPointPolicy",
-    //     "s3:PutAccountPublicAccessBlock",
-    //     "s3:PutBucketAcl",
-    //     "s3:PutBucketPolicy",
-    //     "s3:PutBucketPublicAccessBlock",
-    //     "s3:PutObjectAcl",
-    //     "s3:PutObjectVersionAcl"
-    // ]
     chai.assert(result != null);
-    chai.assert(result.length > 300)
+    chai.assert(result.length > 290)
     // chai.assert.deepStrictEqual(result, expectedResult);
-    console.log(`ResourceExposure risks associated with principal: ${JSON.stringify(result)}`);
+    console.log(`ResourceExposure risks associated with the group admin should be greater than 290: ${JSON.stringify(result.length)}`);
 });
