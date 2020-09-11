@@ -24,6 +24,24 @@ module.exports = {
                 chunks: 'async',
                 hidePathInfo: true,
             }
+        },
+        module: {
+            rules: [
+                {
+                  test: /\.md$/,
+                  use: [
+                    // {
+                    //   loader: "raw-loader",
+                    // },
+                    {
+                      loader: "html-loader"
+                    },
+                    {
+                      loader: "markdown-loader",
+                    },
+                  ]
+                },
+            ]
         }
     },
     css: { extract: false }

@@ -1,6 +1,14 @@
 <template>
     <div>
         <h3>{{ managedPolicyType}}-Managed Policies</h3>
+        <div style="text-align: justify">
+        <!--Summary Text-->
+        <p>
+            <span v-html="summary"></span>
+        </p>
+        <br>
+        <br>
+        </div>
         <div v-bind:key="policyId" v-for="policyId in managedPolicyIds">
             <template v-if="managedBy(policyId) === managedPolicyType">
                 <template v-if="isManagedPolicyLeveraged(policyId) > 0">
@@ -218,6 +226,14 @@
     const managedPoliciesUtil = require('../util/managed-policies');
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    import summaryRaw from './../assets/summary.md';
+    const summary = md.render(summaryRaw);
+
 
     export default {
         name: "ManagedPolicies",
@@ -236,6 +252,9 @@
             managedPolicyIds() {
                 return managedPoliciesUtil.getManagedPolicyIds(this.iam_data);
             },
+            summary() {
+                return summary;
+            }
         },
         methods: {
             managedPolicyDocument(policyId) {

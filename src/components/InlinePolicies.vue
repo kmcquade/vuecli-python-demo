@@ -1,6 +1,14 @@
 <template>
     <div>
         <h3>Inline Policies</h3>
+        <div style="text-align: justify">
+        <!--Summary Text-->
+        <p>
+            <span v-html="summary"></span>
+        </p>
+        <br>
+        <br>
+        </div>
         <div v-bind:key="policyId" v-for="policyId in inlinePolicyIds">
             <div class="row">
                 <div class="col-md-5">
@@ -209,6 +217,14 @@
     // eslint-disable-next-line no-unused-vars
     let glossary = require('../util/glossary');
 
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    import summaryRaw from './../assets/summary.md';
+    const summary = md.render(summaryRaw);
+
     export default {
         name: "InlinePolicies",
         props: {
@@ -223,6 +239,9 @@
             inlinePolicyIds() {
                 return inlinePoliciesUtil.getInlinePolicyIds(this.iam_data);
             },
+            summary() {
+                return summary;
+            }
         },
         methods: {
             inlinePolicyDocument(policyId) {

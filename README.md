@@ -34,25 +34,26 @@ python3 main.py
 ### TODO
 
 #### Report migration
-* Principals component
-  * _Roles - DONE_
-  * _Groups - DONE_
-  * _Users - DONE_
-* DataTables
-* _Navbar - DONE_
-* Checkbox selection of risk types
+
+- [x] Principals component
+  - [x] _Roles - DONE_
+  - [x] _Groups - DONE_
+  - [x] _Users - DONE_
+- [ ] DataTables
+- [x] Markdown guidance - _DONE_
+- [x] _Navbar - DONE_
+- [ ] Checkbox selection of risk types
 
 #### Templating
-* Templating related
-    * Right now, the `App.vue` is configured to just include the `src/sampleData.js`, all the time. We don't want this. We want to be able to load the IAM data results in via Jinja after the fact. Need to figure out the best way to do this.
+
+- [ ] Right now, the `App.vue` is configured to just include the `src/sampleData.js`, all the time. We don't want this. We want to be able to load the IAM data results in via Jinja after the fact. Need to figure out the best way to do this.
 
 #### Not MVP
 
-* Maybe not MVP?
-  * Render the markdown definitions using Vue instead of Jinja2 - this will be cleaner. https://www.npmjs.com/package/vue-simple-markdown
+- [ ] Fix vendor bundle naming
   * The vendor JS bundle is currently leveraging a randomly generated name each time. I think this has to do with my webpack config. Need to fix that - we don't want it to be called `chunk-vendors.a60eac2b.js`.
 
 #### Delivery related
-* Delivery related
-  * Need to figure out GitHub actions for running the unit tests
-  * Need to figure out GitHub actions for verifying that the report is okay on a PR
+
+- [x] Need to figure out GitHub actions for running the unit tests
+- [ ] Need to figure out GitHub actions for verifying that the report is okay on a PR

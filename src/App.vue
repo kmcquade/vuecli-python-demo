@@ -87,18 +87,21 @@
                                      aria-labelledby="nav-principals-tab">
                                     <br>
                                     <Principals v-bind:iam_data="iam_data"/>
+
                                 </div><!--/end PRINCIPALS TAB-->
                                 <!--CUSTOMER-MANAGED TAB-->
                                 <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel"
                                      aria-labelledby="nav-customer-managed-tab">
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+
                                 </div><!--/end CUSTOMER-MANAGED TAB-->
                                 <!--Inline policies TAB-->
                                 <div class="tab-pane fade" id="nav-inline-policies" role="tabpanel"
                                      aria-labelledby="nav-inline-policies-tab">
                                     <br>
                                     <InlinePolicies v-bind:iam_data="iam_data"/>
+
                                 </div><!--/end CUSTOMER-MANAGED TAB-->
                                 <!--AWS-MANAGED TAB-->
                                 <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel"
@@ -106,16 +109,19 @@
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
+
                                 <div class="tab-pane fade" id="nav-guidance" role="tabpanel" aria-labelledby="nav-guidance-tab">
-                                    <br>
-                                    Guidance should go here.
+                                <Guidance />
                                 </div>
                                 <div class="tab-pane fade" id="nav-appendices" role="tabpanel" aria-labelledby="nav-appendices-tab">
                                     <br>
-                                    Appendix should go here.
+                                    <Glossary />
                                 </div>
                             </div><!--/end Tab content-->
+
                         </div><!--/end data spy-->
+                        <br><hr><br>
+                        <Glossary />
 
                     </div>
                 </div>
@@ -123,24 +129,19 @@
         </div>
     </div>
 </template>
-<script>
-    import Principals from "../tmp/Principals";
-    export default {
-        components: {Principals}
-    }
-</script>
+
 <script>
     import Summary from './components/Summary.vue';
-    import ReportMetadata from './components/ReportMetadata.vue';
     import ManagedPolicies from './components/ManagedPolicies';
     import InlinePolicies from './components/InlinePolicies'
     import Principals from './components/Principals'
+    import Guidance from './components/Guidance'
+    import Glossary from './components/Glossary'
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
     // if (process.env.DEV_MODE) {
     // }
 
-    // import iam_data from '@/sampleData'
     var sampleData = require('./sampleData');
     let iam_data = sampleData.iam_data;
 
@@ -148,10 +149,11 @@
         name: 'App',
         components: {
             Summary,
-            ReportMetadata,
             ManagedPolicies,
             InlinePolicies,
-            Principals
+            Principals,
+            Guidance,
+            Glossary
         },
 
         data() {
