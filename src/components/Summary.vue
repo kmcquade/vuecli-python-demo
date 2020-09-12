@@ -1,27 +1,121 @@
 <template>
-    <div class="report">
+  <div class="report">
+    <b-row class="mb-3">
+      <b-col>
         <h3>Executive Summary</h3>
-        <p>This report contains the security assessment results from
-            <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk
-            landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks
-            in IAM policies like Privilege Escalation, Resource Exposure, Infrastructure Modification, and Data
-            Exfiltration.
+        <p>
+          This report contains the security assessment results from
+          <a href="https://github.com/salesforce/cloudsplaining" rel="noreferrer">Cloudsplaining</a>, which maps out the IAM risk
+          landscape in a report.</p>
+        <p>
+          The assessment identifies where resource ARN constraints are not used and identifies other risks
+          in IAM policies:
+          <ul>
+            <li>Privilege Escalation</li>
+            <li>Resource Exposure</li>
+            <li>Infrastructure Modification</li>
+            <li>Data Exfiltration</li>
+          </ul>
 
-            Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
+          Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS
+          credentials.
         </p>
-        <br>
-        <br>
-        <p>Account ID: {{ accountId }}</p>
-    </div>
+      </b-col>
+
+    </b-row>
+
+    <b-row class="mb-3">
+      <b-col lg="8">
+        <div style="" class="d-none d-sm-block">
+          <summary-findings
+              :inline-policy-risks="inlinePolicyRisks"
+              :managed-policy-risks="managedPolicyRisks"
+              :height="200"
+          ></summary-findings>
+        </div>
+      </b-col>
+      <b-col>
+        <b-table-simple small responsive>
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th>Risk</b-th>
+              <b-th>Instances</b-th>
+              <b-th>Severity</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr>
+              <b-th>Privilege Escalation</b-th>
+              <b-td>{{ policyRisks.PrivilegeEscalation }}</b-td>
+              <b-td>high</b-td>
+            </b-tr>
+            <b-tr>
+              <b-th>Data Exfiltration</b-th>
+              <b-td>{{ policyRisks.DataExfiltration }}</b-td>
+              <b-td>low</b-td>
+            </b-tr>
+            <b-tr>
+              <b-th>Resource Exposure</b-th>
+              <b-td>{{ policyRisks.ResourceExposure }}</b-td>
+              <b-td>med</b-td>
+            </b-tr>
+            <b-tr>
+              <b-th>Infrastructure Modification</b-th>
+              <b-td>{{ policyRisks.InfrastructureModification }}</b-td>
+              <b-td>low</b-td>
+            </b-tr>
+
+          </b-tbody>
+        </b-table-simple>
+      </b-col>
+
+    </b-row>
+
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "Summary",
-        props: {
-            accountId: String
-        }
-    }
+import SummaryFindings from "@/components/charts/SummaryFindings";
+
+import {policyViolations} from "@/util/other"
+
+export default {
+  name: "Summary",
+  props: {
+    accountId: String,
+    iam_data: Object,
+    policyFilter: String
+  },
+  components: {
+    SummaryFindings
+  },
+  computed: {
+    inlinePolicyRisks() {
+      return policyViolations(this.iam_data["inline-policies"])
+    },
+    managedPolicyRisks() {
+      return policyViolations(this.iam_data["managed-policies"])
+    },
+    policyRisks() {
+
+      if (this.policyFilter === "inlinePolicies") {
+        return this.inlinePolicyRisks
+      }
+
+      if (["custManaged", "awsManaged"].indexOf(this.policyFilter) !== -1) {
+        return this.managedPolicyRisks;
+      }
+
+      return {
+        "PrivilegeEscalation": this.inlinePolicyRisks.PrivilegeEscalation + this.managedPolicyRisks.PrivilegeEscalation,
+        "DataExfiltration": this.inlinePolicyRisks.DataExfiltration + this.managedPolicyRisks.DataExfiltration,
+        "ResourceExposure": this.inlinePolicyRisks.ResourceExposure + this.managedPolicyRisks.ResourceExposure,
+        "InfrastructureModification": this.inlinePolicyRisks.InfrastructureModification + this.managedPolicyRisks.InfrastructureModification
+      }
+    },
+
+  }
+}
 </script>
 
 <style scoped>
