@@ -93,6 +93,7 @@
                                 <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel"
                                      aria-labelledby="nav-customer-managed-tab">
                                     <br>
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer"/>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
 
                                 </div><!--/end CUSTOMER-MANAGED TAB-->
@@ -107,6 +108,7 @@
                                 <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel"
                                      aria-labelledby="nav-aws-managed-tab">
                                     <br>
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS"/>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
 
@@ -137,6 +139,7 @@
     import Principals from './components/Principals'
     import Guidance from './components/Guidance'
     import Glossary from './components/Glossary'
+    import PolicyTable from './components/PolicyTable'
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
     // if (process.env.DEV_MODE) {
@@ -153,7 +156,8 @@
             InlinePolicies,
             Principals,
             Guidance,
-            Glossary
+            Glossary,
+            PolicyTable
         },
 
         data() {

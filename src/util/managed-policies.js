@@ -1,5 +1,6 @@
 'use strict';
 var roleUtils = require("./roles")
+var otherUtils = require("./other")
 
 function getManagedPolicyIds(iam_data) {
     // console.log(`managed policy IDs: ${Object.keys(iam_data["managed-policies"])}`)
@@ -15,6 +16,16 @@ function getManagedPolicyIds(iam_data) {
     return result;
 }
 
+function getManagedPolicyNames(iam_data) {
+    let managedPolicyIds = getManagedPolicyIds(iam_data);
+    let names = [];
+    for (let i = 0; i < managedPolicyIds.length; i++) {
+        names.push(iam_data["managed-policies"][managedPolicyIds[i]]["PolicyName"])
+    }
+    names.sort();
+    return names;
+}
+
 function getManagedPolicy(iam_data, policyId) {
     return iam_data["managed-policies"][policyId];
 }
@@ -24,7 +35,9 @@ function getManagedPolicyDocument(iam_data, policyId) {
 }
 
 function getManagedPolicyFindings(iam_data, policyId, riskType) {
-    return iam_data["managed-policies"][policyId][riskType];
+    let result = iam_data["managed-policies"][policyId][riskType];
+    result.sort();
+    return result;
 }
 
 function getManagedPolicyName(iam_data, policyId) {
@@ -32,7 +45,14 @@ function getManagedPolicyName(iam_data, policyId) {
 }
 
 function managedPolicyManagedBy(iam_data, policyId) {
-    let arn = iam_data["managed-policies"][policyId]["Arn"];
+    let arn;
+    try {
+        arn = iam_data["managed-policies"][policyId]["Arn"];
+    }
+    catch (TypeError) {
+        console.log(`TypeError for policyId: ${policyId}`)
+    }
+
     if (arn.startsWith("arn:aws:iam::aws:")) {
         return "AWS";
     }
@@ -110,6 +130,16 @@ function getGroupsLeveragingManagedPolicy(iam_data, policyId) {
     return groupsInQuestion
 }
 
+function getAllPrincipalsLeveragingManagedPolicy(iam_data, policyId) {
+    let users;
+    let groups;
+    let roles;
+    users = getUsersLeveragingManagedPolicy(iam_data, policyId)
+    groups = getGroupsLeveragingManagedPolicy(iam_data, policyId)
+    roles = getRolesLeveragingManagedPolicy(iam_data, policyId)
+    return users.concat(groups, roles)
+}
+
 function isManagedPolicyLeveraged(iam_data, policyId) {
     let groupCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, 'Group').length;
     let userCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, policyId, 'User').length;
@@ -141,10 +171,62 @@ function managedPolicyAssumableByComputeService(iam_data, policyId) {
     }
 }
 
+function getManagedPolicyItems(iam_data, managedPolicyIds, managedBy) {
+    let items = [];
+    // let managedPolicyIds = getManagedPolicyIds(iam_data)
+    // for (let i = 0; i < managedPolicyIds.length; i++){
+    for (let policyId of managedPolicyIds){
+        if (managedBy === managedPolicyManagedBy(iam_data, policyId)){
+            let policyName = getManagedPolicyName(iam_data, policyId);
+            let attachedToPrincipals = getAllPrincipalsLeveragingManagedPolicy(iam_data, policyId);
+            let services = getServicesAffectedByManagedPolicy(iam_data, policyId).length
+            let infrastructureModification = getManagedPolicyFindings(iam_data, policyId, "InfrastructureModification").length;
+            let privilegeEscalation = getManagedPolicyFindings(iam_data, policyId, "PrivilegeEscalation").length;
+            let resourceExposure = getManagedPolicyFindings(iam_data, policyId, "ResourceExposure").length;
+            let dataExfiltration = getManagedPolicyFindings(iam_data, policyId, "DataExfiltration").length;
+            let computeRole = managedPolicyAssumableByComputeService(iam_data, policyId);
+            let item = {
+                policy_name: policyName,
+                attached_to_principals: attachedToPrincipals,
+                services: services,
+                privilege_escalation: privilegeEscalation,
+                resource_exposure: resourceExposure,
+                data_exfiltration: dataExfiltration,
+                infrastructure_modification: infrastructureModification,
+                compute_role: computeRole
+            }
+            items.push(item)
+        }
+    }
+    return items;
+}
+
+function getManagedPolicyNameMapping(iam_data, managedBy) {
+    let managedPolicyIds = getManagedPolicyIds(iam_data);
+    let names = [];
+    let policyId;
+    for (policyId of managedPolicyIds) {
+        if (iam_data["managed-policies"][policyId]["Arn"].startsWith("arn:aws:iam::aws:")) {
+            if (managedBy === "AWS") {
+                let policyName = iam_data["managed-policies"][policyId]["PolicyName"];
+                names.push({policy_name: policyName, policy_id: policyId})
+            }
+        } else {
+            if (managedBy === "Customer") {
+                let policyName = iam_data["managed-policies"][policyId]["PolicyName"];
+                names.push({policy_name: policyName, policy_id: policyId})
+            }
+        }
+    }
+    names.sort(otherUtils.compareValues("policy_name", "asc"));
+    return getManagedPolicyItems(iam_data, managedPolicyIds, managedBy);
+}
+
 exports.getManagedPolicyIds = getManagedPolicyIds;
+exports.getManagedPolicyNames = getManagedPolicyNames;
+exports.getManagedPolicyFindings = getManagedPolicyFindings;
 exports.getManagedPolicy = getManagedPolicy;
 exports.getManagedPolicyDocument = getManagedPolicyDocument;
-exports.getManagedPolicyFindings = getManagedPolicyFindings;
 exports.managedPolicyManagedBy = managedPolicyManagedBy;
 exports.getRolesLeveragingManagedPolicy = getRolesLeveragingManagedPolicy;
 exports.getServicesAffectedByManagedPolicy = getServicesAffectedByManagedPolicy;
@@ -154,3 +236,6 @@ exports.getGroupsLeveragingManagedPolicy = getGroupsLeveragingManagedPolicy;
 exports.isManagedPolicyLeveraged = isManagedPolicyLeveraged;
 exports.getPrincipalTypeLeveragingManagedPolicy = getPrincipalTypeLeveragingManagedPolicy;
 exports.managedPolicyAssumableByComputeService = managedPolicyAssumableByComputeService;
+exports.getAllPrincipalsLeveragingManagedPolicy = getAllPrincipalsLeveragingManagedPolicy;
+exports.getManagedPolicyItems = getManagedPolicyItems;
+exports.getManagedPolicyNameMapping = getManagedPolicyNameMapping;

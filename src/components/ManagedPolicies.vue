@@ -10,8 +10,8 @@
         <br>
         </div>
         <div v-bind:key="policyId" v-for="policyId in managedPolicyIds">
-            <template v-if="managedBy(policyId) === managedPolicyType">
-                <template v-if="isManagedPolicyLeveraged(policyId) > 0">
+<!--            <template v-show="managedBy(policyId) === managedPolicyType">-->
+<!--                <template v-show="isManagedPolicyLeveraged(policyId) > 0">-->
                     <div class="row">
                         <div class="col-md-5">
                             <div class="card">
@@ -127,7 +127,7 @@
 </code></pre>
                                         </div>
                                     </div><!--Policy Document-->
-                            <!--Assumable by Compute Service-->
+                            <!--Assum∂able by Compute Service-->
                             <div v-if="managedPolicyAssumableByComputeService(policyId).length > 0">
                                 <div class="card-header">
                                     <a class="card-link" data-toggle="collapse"
@@ -215,8 +215,8 @@
                             </div>
                         </div>
                     </div>
-                </template>
-            </template>
+<!--                </template>-->
+<!--            </template>-->
         </div>
     </div>
 </template>

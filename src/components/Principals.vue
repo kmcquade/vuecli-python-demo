@@ -280,7 +280,7 @@
                                     <b-list-group>
                                         <div v-bind:key="riskName" v-for="riskName in riskNames">
                                             <template
-                                                    v-if="getRiskAssociatedWithPrincipal(userName, 'User', riskName).length > 0">
+                                                    v-show="getRiskAssociatedWithPrincipal(userName, 'User', riskName).length > 0">
                                                 <dd class="col-sm-12">
                                                     <dl class="row">
                                                         <b-list-group-item
@@ -442,6 +442,7 @@
                 policyNames.sort();
                 return policyNames;
             },
+
             getRiskLevel: function (riskType) {
                 if (riskType === "DataExfiltration") {
                     return "warning"

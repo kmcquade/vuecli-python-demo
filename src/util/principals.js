@@ -85,9 +85,13 @@ function getRiskAssociatedWithPrincipal(iam_data, principalName, principalType, 
             }
         }
     }
-    findings.sort();
-    findings = otherUtils.removeDuplicatesFromArray(findings)
-    return findings;
+    if (findings.length > 0) {
+        findings.sort();
+        findings = otherUtils.removeDuplicatesFromArray(findings)
+        return findings;
+    } else {
+        return []
+    }
 }
 
 exports.getPrincipalMetadata = getPrincipalMetadata;

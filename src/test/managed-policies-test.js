@@ -107,3 +107,29 @@ it("managedPolicies.managedPolicyAssumableByComputeService: should tell us if a 
     console.log(`The role called MyOtherRole allows the use of the EC2 service: ${JSON.stringify(result)}`);
     chai.assert.deepStrictEqual(result, expectedResult, "lists do not match")
 });
+
+it("managedPolicies.getManagedPolicyItems: should give us the object to feed into the table", function() {
+    let managedPolicyIds = managedPolicies.getManagedPolicyIds(iam_data)
+    var result = managedPolicies.getManagedPolicyItems(iam_data, managedPolicyIds, "AWS")
+    chai.assert(result != null);
+    console.log(`Result: ${JSON.stringify(result.length)}`);
+    console.log(`Result: ${JSON.stringify(result)}`);
+    chai.assert(result.length > 30, "The results dictionary is not as large as expected")
+});
+
+it("managedPolicies.getManagedPolicyItems: should give us the object to feed into the table for customers", function() {
+    let managedPolicyIds = managedPolicies.getManagedPolicyIds(iam_data)
+    var result = managedPolicies.getManagedPolicyItems(iam_data, managedPolicyIds,"Customer")
+    chai.assert(result != null);
+    console.log(`Result: ${JSON.stringify(result.length)}`);
+    console.log(`Result: ${JSON.stringify(result)}`);
+    chai.assert(result.length > 1, "The results dictionary is not as large as expected")
+});
+
+// it("managedPolicies.getManagedPolicyNameMapping: should give us the object to feed into the table for customers", function() {
+//     var result = managedPolicies.getManagedPolicyNameMapping(iam_data)
+//     chai.assert(result != null);
+//     console.log(`Result: ${JSON.stringify(result.length)}`);
+//     console.log(`Result: ${JSON.stringify(result)}`);
+//     chai.assert(result.length > 1, "The results dictionary is not as large as expected")
+// });
