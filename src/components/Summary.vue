@@ -1,26 +1,35 @@
 <template>
     <div class="report">
         <h3>Executive Summary</h3>
-        <p>This report contains the security assessment results from
-            <a href="https://github.com/salesforce/cloudsplaining">Cloudsplaining</a>, which maps out the IAM risk
-            landscape in a report, identifies where resource ARN constraints are not used, and identifies other risks
-            in IAM policies like Privilege Escalation, Resource Exposure, Infrastructure Modification, and Data
-            Exfiltration.
-
-            Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS credentials.
+        <div style="text-align: justify">
+        <!--Summary Text-->
+        <p>
+            <span v-html="summary"></span>
         </p>
+        </div>
         <br>
-        <br>
-        <p>Account ID: {{ accountId }}</p>
     </div>
 </template>
 
 <script>
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    import summaryRaw from "../assets/summary.md";
+
+    const summary = md.render(summaryRaw);
     export default {
         name: "Summary",
         props: {
             accountId: String
-        }
+        },
+        computed: {
+            summary() {
+                return summary;
+            }
+        },
     }
 </script>
 

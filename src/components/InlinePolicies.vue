@@ -1,14 +1,5 @@
 <template>
     <div>
-        <h3>Inline Policies</h3>
-        <div style="text-align: justify">
-        <!--Summary Text-->
-        <p>
-            <span v-html="summary"></span>
-        </p>
-        <br>
-        <br>
-        </div>
         <div v-bind:key="policyId" v-for="policyId in inlinePolicyIds">
             <div class="row">
                 <div class="col-md-5">
@@ -92,7 +83,8 @@
                                      data-toggle="popover"
                                      role="alert"
                                      title="Policy leveraged by Compute Service Role"
-                                     v-bind:data-content="getRiskDefinition('AssumableByComputeService')">Policy leveraged by Compute Service Role
+                                     v-bind:data-content="getRiskDefinition('AssumableByComputeService')">Policy
+                                    leveraged by Compute Service Role
                                 </div>
                             </template>
                         </div>
@@ -126,7 +118,8 @@
                                        v-bind:href="'#inline-policy' + '-' + policyId + '-' +'assumable'"
                                     >Compute Services that leverage this IAM Policy via AssumeRole</a>
                                 </div>
-                                <div class="panel-collapse collapse" v-bind:id="'inline-policy' + '-' + policyId + '-' +'assumable'">
+                                <div class="panel-collapse collapse"
+                                     v-bind:id="'inline-policy' + '-' + policyId + '-' +'assumable'">
                                     <div class="card-body">
 <pre><code>
 {{ JSON.parse(JSON.stringify(inlinePolicyAssumableByComputeService(policyId), undefined, '\t')) }}
@@ -223,6 +216,7 @@
         typographer: true
     });
     import summaryRaw from './../assets/summary.md';
+
     const summary = md.render(summaryRaw);
 
     export default {

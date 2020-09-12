@@ -4,36 +4,47 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,initial-scale=1.0" name="viewport">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
-    <link href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" rel="stylesheet" type="text/css"/>
+    <title>Cloudsplaining report</title>
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <!--Bootstrap theme-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.css" crossorigin="anonymous"/>
 
     <!-- Load polyfills to support older browsers -->
-    <script crossorigin="anonymous"
-            src="https:///polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"></script>
+<!--    <script src="https:///polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"-->
+<!--            crossorigin="anonymous"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.js" crossorigin="anonymous"></script>
+
+    <!-- JQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+
+<!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>-->
+<!--    <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>-->
+    <!-- Load the following for BootstrapVueIcons support -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue-icons.min.js"></script>-->
+
 </head>
 <body>
 <div id="app"></div>
 <!-- built files will be auto injected -->
-</body>
-<!-- JQuery-->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-<!--Popper-->
-<script crossorigin="anonymous"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
-<!--  Bootstrap-->
-<script crossorigin="anonymous"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-    {{ t.app_bundle_js }}
-</script>
 <script>
     {{ t.vendor_bundle_js }}
 </script>
+<script>
+    {{ t.app_bundle_js }}
+</script>
+
+</body>
+<!--  Bootstrap-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
 </html>

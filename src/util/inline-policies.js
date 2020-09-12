@@ -2,24 +2,24 @@
 let roleUtils = require("./roles");
 
 function getInlinePolicyIds(iam_data) {
-    return Object.keys(iam_data["inline-policies"]);
+    return Object.keys(iam_data["inline_policies"]);
 }
 
 function getInlinePolicy(iam_data, policyId) {
-    return iam_data["inline-policies"][policyId];
+    return iam_data["inline_policies"][policyId];
 }
 
 function getInlinePolicyDocument(iam_data, policyId) {
-    return iam_data["inline-policies"][policyId]["PolicyDocument"];
+    return iam_data["inline_policies"][policyId]["PolicyDocument"];
 }
 
 function getInlinePolicyFindings(iam_data, policyId, riskType) {
-    return iam_data["inline-policies"][policyId][riskType];
+    return iam_data["inline_policies"][policyId][riskType];
 }
 
 function getServicesAffectedByInlinePolicy(iam_data, policyId) {
     let servicesAffected = [];
-    let actions = iam_data["inline-policies"][policyId]["InfrastructureModification"];
+    let actions = iam_data["inline_policies"][policyId]["InfrastructureModification"];
     if (actions.length > 0) {
         let action;
         for (action of actions) {

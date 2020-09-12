@@ -80,6 +80,7 @@
                                      aria-labelledby="nav-summary-tab">
                                     <br>
                                     <Summary account-id="1234"/>
+                                    <br>
 
                                 </div><!--/END SUMMARY TAB-->
                                 <!--PRINCIPALS TAB-->
@@ -87,34 +88,43 @@
                                      aria-labelledby="nav-principals-tab">
                                     <br>
                                     <Principals v-bind:iam_data="iam_data"/>
+                                    <br>
 
                                 </div><!--/end PRINCIPALS TAB-->
                                 <!--CUSTOMER-MANAGED TAB-->
                                 <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel"
                                      aria-labelledby="nav-customer-managed-tab">
                                     <br>
-                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer"/>
-                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+                                    <h3>Customer-Managed Policies</h3>
+<!--                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('Customer')"/>-->
+                                    <br>
+                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" managed-by="Customer"/>
 
                                 </div><!--/end CUSTOMER-MANAGED TAB-->
                                 <!--Inline policies TAB-->
                                 <div class="tab-pane fade" id="nav-inline-policies" role="tabpanel"
                                      aria-labelledby="nav-inline-policies-tab">
                                     <br>
+                                    <h3>Inline Policies</h3>
                                     <InlinePolicies v-bind:iam_data="iam_data"/>
+                                    <br>
 
                                 </div><!--/end CUSTOMER-MANAGED TAB-->
                                 <!--AWS-MANAGED TAB-->
                                 <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel"
                                      aria-labelledby="nav-aws-managed-tab">
                                     <br>
-                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS"/>
-                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
+                                    <h3>AWS-Managed Policies</h3>
+<!--                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('AWS')"/>-->
+                                    <br>
+                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" managed-by="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
 
                                 <div class="tab-pane fade" id="nav-guidance" role="tabpanel" aria-labelledby="nav-guidance-tab">
-                                <Guidance />
+                                    <br>
+                                    <Guidance />
                                 </div>
+
                                 <div class="tab-pane fade" id="nav-appendices" role="tabpanel" aria-labelledby="nav-appendices-tab">
                                     <br>
                                     <Glossary />
@@ -139,7 +149,8 @@
     import Principals from './components/Principals'
     import Guidance from './components/Guidance'
     import Glossary from './components/Glossary'
-    import PolicyTable from './components/PolicyTable'
+    // import PolicyTable from './components/PolicyTable'
+    const managedPoliciesUtil = require('./util/managed-policies');
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
     // if (process.env.DEV_MODE) {
@@ -147,6 +158,10 @@
 
     var sampleData = require('./sampleData');
     let iam_data = sampleData.iam_data;
+
+    function getManagedPolicyNameMapping(managedBy) {
+        return managedPoliciesUtil.getManagedPolicyNameMapping(iam_data, managedBy)
+    }
 
     export default {
         name: 'App',
@@ -157,7 +172,7 @@
             Principals,
             Guidance,
             Glossary,
-            PolicyTable
+            // PolicyTable
         },
 
         data() {
@@ -170,8 +185,11 @@
                 return this.sharedState
             }
         },
-        methods: {}
-        // delimiters: ['${', '}'],
+        methods: {
+            getManagedPolicyNameMapping: function(managedBy) {
+                return getManagedPolicyNameMapping(managedBy)
+            }
+        }
     }
 </script>
 

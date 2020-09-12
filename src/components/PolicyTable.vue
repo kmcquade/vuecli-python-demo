@@ -1,61 +1,63 @@
 <template>
     <div>
-<!--        <table v-bind:id="policyType + '.' + 'table'" class="display compact responsive"-->
-<!--               style="width:100%; border-radius: 10px">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th></th>-->
-<!--                <th>Policy Name</th>-->
-<!--                <th>Attached To Principals</th>-->
-<!--                <th>Services Affected</th>-->
-<!--                <th><a href="#privilege-escalation">Privilege Escalation</a></th>-->
-<!--                <th><a href="#resource-exposure">Resource Exposure</a></th>-->
-<!--                <th><a href="#data-exfiltration">Data Exfiltration</a></th>-->
-<!--                <th><a href="#roles-assumable-by-compute-services">Compute Role</a></th>-->
-<!--                <th><a href="#infrastructure-modification">Infrastructure Modification</a></th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr v-for="(policy, index) in getManagedPolicyNameMapping" v-bind:key="index">-->
-<!--                <td></td>-->
-<!--                <td>{{ policy.policy_name }}</td>-->
-<!--                <td>{{ policy.attached_to_principals }}</td>-->
-<!--                <td>{{ policy.services }}</td>-->
-<!--                <td>{{ policy.privilege_escalation }}</td>-->
-<!--                <td>{{ policy.resource_exposure }}</td>-->
-<!--                <td>{{ policy.data_exfiltration }}</td>-->
-<!--                <td>{{ policy.infrastructure_modification }}</td>-->
-<!--                <td>{{ policy.compute_role }}</td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--            <b-table-->
-<!--      :items="items"-->
-<!--      :fields="fields"-->
-<!--      :sort-by.sync="sortBy"-->
-<!--      :sort-desc.sync="sortDesc"-->
-<!--      responsive="sm"-->
-<!--    ></b-table>-->
+        <b-container>
+            <!-- User Interface controls -->
+            <b-row>
+                <b-col></b-col>
+                <b-col></b-col>
+                <b-col>
+                    <b-form-group
+                            label="Per page"
+                            label-cols-sm="6"
+                            label-cols-md="4"
+                            label-cols-lg="3"
+                            label-align-sm="right"
+                            label-size="sm"
+                            label-for="perPageSelect"
+                            class="mb-0"
+                    >
+                        <b-form-select
+                                v-model="perPage"
+                                id="perPageSelect"
+                                size="sm"
+                                :options="pageOptions"
+                        ></b-form-select>
+                    </b-form-group>
+                </b-col>
+
+            </b-row>
+
+            <b-table
+                    :items="managedPolicyNameMapping"
+                    :fields="fields"
+                    :sort-by.sync="sortBy"
+                    :sort-desc.sync="sortDesc"
+                    :current-page="currentPage"
+                    :per-page="perPage"
+                    responsive="sm"
+                    small
+            >
+              <template v-slot:cell(attached_to_principals)="data">
+                {{ data.item.attached_to_principals.join(", ") }}
+              </template>
+
+              <template v-slot:cell(compute_role)="data">
+                {{ data.item.compute_role.join(", ") }}
+              </template>
+            </b-table>
+        </b-container>
+        <br>
+        <hr>
+        <br>
     </div>
 </template>
 
 <script>
-    const managedPoliciesUtil = require('../util/managed-policies');
-    const inlinePoliciesUtil = require('../util/inline-policies');
-
-
     export default {
         name: "PolicyTable",
         props: {
-            iam_data: {
-                type: Object
-            },
-            policyType: {
-                type: String
-            },
-            managedBy: {
-                type: String,
-                default: "AWS"
+            managedPolicyNameMapping: {
+                type: Array
             }
         },
         data() {
@@ -72,43 +74,13 @@
                     {key: 'data_exfiltration', sortable: true},
                     {key: 'compute_role', sortable: true},
                 ],
+                totalRows: 1,
+                currentPage: 1,
+                perPage: 10,
+                pageOptions: [5, 10, 15, 20, 50, 100],
             }
         },
-        computed: {
-            managedPolicyIds() {
-                return managedPoliciesUtil.getManagedPolicyIds(this.iam_data);
-            },
-            inlinePolicyIds() {
-                return inlinePoliciesUtil.getInlinePolicyIds(this.iam_data);
-            },
-            getManagedPolicyNameMapping: function () {
-                return managedPoliciesUtil.getManagedPolicyNameMapping(this.iam_data, this.managedBy)
-            }
-        },
-        methods: {
-            getManagedPolicyName: function (policyId) {
-                return managedPoliciesUtil.getManagedPolicyName(this.iam_data, policyId)
-            },
-            getServicesAffectedByManagedPolicy: function (policyId) {
-                return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId).length
-            },
-            getManagedPolicyFindings: function (policyId, riskType) {
-                return managedPoliciesUtil.getManagedPolicyFindings(this.iam_data, policyId, riskType);
-            },
-            managedPolicyAssumableByComputeService: function (policyId) {
-                return managedPoliciesUtil.managedPolicyAssumableByComputeService(this.iam_data, policyId);
-            },
-            isManagedPolicyLeveraged: function (policyId) {
-                return managedPoliciesUtil.isManagedPolicyLeveraged(this.iam_data, policyId)
-            },
-            managedPolicy: function (policyId) {
-                return managedPoliciesUtil.getManagedPolicy(this.iam_data, policyId);
-            },
-            servicesAffectedByManagedPolicy: function (policyId) {
-                return managedPoliciesUtil.getServicesAffectedByManagedPolicy(this.iam_data, policyId)
-            },
-
-        },
+        methods: {},
 
     }
 

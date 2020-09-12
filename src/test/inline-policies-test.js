@@ -61,10 +61,10 @@ it("inlinePolicies.getInlinePolicyFindings: should return Inline policy findings
 it("inlinePolicies.getInlinePolicyIds: should print out all inline Policy IDs", function () {
     var result = inlinePolicies.getInlinePolicyIds(iam_data)
     var expectedResult = [
-      "98f5220d4d4a19fe8da59c7a2a8c2f972303a0b670cf1c3f31cad06159a5742e",
-      "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
       "0e1bd3995cfe6cfbbac133f1406839e6b415e5b5a412cd148ac78071d82e5b1b",
+      "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986",
       "aad4a5d1e0cd67fb99c658e1d326f16afd2f6857804f6ffd547c9c13ef508540",
+      "98f5220d4d4a19fe8da59c7a2a8c2f972303a0b670cf1c3f31cad06159a5742e",
       "4331c4e6419d4ca3e11864e79a062881a78bc46804514465a7fdcb9f3471bf50",
       "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8"
     ]
@@ -84,7 +84,7 @@ it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of 
 
 it("inlinePolicies.getPrincipalTypeLeveragingInlinePolicy: should get a list of USERS that leverage this inline policy", function () {
     var result = inlinePolicies.getPrincipalTypeLeveragingInlinePolicy(iam_data, "4d5d2bf1baaf66fd24b21397410fd0eb30ab5758d69fc365b1862dd9a5be5eb8", "User")
-    var expectedResult = ["userwithlotsofpermissions", "biden"]
+    var expectedResult = ["userwithlotsofpermissions"]
     chai.assert(result != null);
     chai.assert.deepStrictEqual(result, expectedResult)
     console.log(`Users leveraging the InsecureUserPolicy inline policy: ${JSON.stringify(result)}`);

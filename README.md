@@ -39,10 +39,12 @@ python3 main.py
   - [x] _Roles - DONE_
   - [x] _Groups - DONE_
   - [x] _Users - DONE_
-- [ ] DataTables
+- [x] DataTables
 - [x] Markdown guidance - _DONE_
 - [x] _Navbar - DONE_
 - [ ] Checkbox selection of risk types
+- [ ] Fix underlying performance issues
+- [ ] Migrate to new cloudsplaining data output version, where customer-managed and AWS managed policies are separated
 
 #### Templating
 
