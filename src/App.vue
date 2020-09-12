@@ -96,7 +96,7 @@
                                      aria-labelledby="nav-customer-managed-tab">
                                     <br>
                                     <h3>Customer-Managed Policies</h3>
-                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('Customer')"/>
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer" v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"/>
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" managed-by="Customer"/>
 
@@ -106,6 +106,7 @@
                                      aria-labelledby="nav-inline-policies-tab">
                                     <br>
                                     <h3>Inline Policies</h3>
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Inline" managedBy="AWS" v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>
                                     <InlinePolicies v-bind:iam_data="iam_data"/>
                                     <br>
 
@@ -115,7 +116,7 @@
                                      aria-labelledby="nav-aws-managed-tab">
                                     <br>
                                     <h3>AWS-Managed Policies</h3>
-                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('AWS')"/>
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS" v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"/>
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" managed-by="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
@@ -151,6 +152,7 @@
     import Glossary from './components/Glossary'
     import PolicyTable from './components/PolicyTable'
     const managedPoliciesUtil = require('./util/managed-policies');
+    const inlinePoliciesUtil = require('./util/inline-policies');
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
     // if (process.env.DEV_MODE) {
@@ -161,6 +163,10 @@
 
     function getManagedPolicyNameMapping(managedBy) {
         return managedPoliciesUtil.getManagedPolicyNameMapping(iam_data, managedBy)
+    }
+
+    function getInlinePolicyNameMapping() {
+        return inlinePoliciesUtil.getInlinePolicyNameMapping(iam_data)
     }
 
     export default {
@@ -188,6 +194,9 @@
         methods: {
             getManagedPolicyNameMapping: function(managedBy) {
                 return getManagedPolicyNameMapping(managedBy)
+            },
+            getInlinePolicyNameMapping: function() {
+                return getInlinePolicyNameMapping()
             }
         }
     }

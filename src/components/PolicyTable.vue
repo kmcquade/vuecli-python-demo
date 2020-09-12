@@ -28,7 +28,7 @@
             </b-row>
 
             <b-table
-                    :items="managedPolicyNameMapping"
+                    :items="policyNameMapping"
                     :fields="fields"
                     :sort-by.sync="sortBy"
                     :sort-desc.sync="sortDesc"
@@ -56,7 +56,7 @@
     export default {
         name: "PolicyTable",
         props: {
-            managedPolicyNameMapping: {
+            policyNameMapping: {
                 type: Array
             }
         },

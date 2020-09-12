@@ -105,3 +105,20 @@ it("inlinePolicies.inlinePolicyAssumableByComputeService: should tell us if an I
     console.log(`The role called MyOtherRole allows the use of the EC2 service: ${JSON.stringify(result)}`);
     chai.assert.deepStrictEqual(result, expectedResult, "lists do not match")
 });
+
+it("inlinePolicies.getInlinePolicyIds: should give us the object to feed into the table", function() {
+    let inlinePolicyIds = inlinePolicies.getInlinePolicyIds(iam_data)
+    var result = inlinePolicies.getInlinePolicyItems(iam_data, inlinePolicyIds)
+    chai.assert(result != null);
+    console.log(`Result: ${JSON.stringify(result.length)}`);
+    console.log(`Result: ${JSON.stringify(result)}`);
+    chai.assert(result.length > 5, "The results dictionary is not as large as expected")
+});
+
+it("getInlinePolicyIds.getInlinePolicyNameMapping: should give us the object to feed into the table for customers", function() {
+    var result = inlinePolicies.getInlinePolicyNameMapping(iam_data)
+    chai.assert(result != null);
+    console.log(`Result: ${JSON.stringify(result.length)}`);
+    console.log(`Result: ${JSON.stringify(result)}`);
+    chai.assert(result.length > 1, "The results dictionary is not as large as expected")
+});

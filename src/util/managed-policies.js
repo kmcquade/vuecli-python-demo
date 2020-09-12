@@ -198,8 +198,6 @@ function managedPolicyAssumableByComputeService(iam_data, managedBy, policyId) {
 
 function getManagedPolicyItems(iam_data, managedBy, managedPolicyIds) {
     let items = [];
-    // let managedPolicyIds = getManagedPolicyIds(iam_data)
-    // for (let i = 0; i < managedPolicyIds.length; i++){
     for (let policyId of managedPolicyIds){
         let policyName = getManagedPolicyName(iam_data, managedBy, policyId);
         let attachedToPrincipals = getAllPrincipalsLeveragingManagedPolicy(iam_data, managedBy, policyId);
