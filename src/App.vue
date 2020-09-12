@@ -96,7 +96,7 @@
                                      aria-labelledby="nav-customer-managed-tab">
                                     <br>
                                     <h3>Customer-Managed Policies</h3>
-<!--                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('Customer')"/>-->
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="Customer" managedBy="Customer" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('Customer')"/>
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer" managed-by="Customer"/>
 
@@ -115,7 +115,7 @@
                                      aria-labelledby="nav-aws-managed-tab">
                                     <br>
                                     <h3>AWS-Managed Policies</h3>
-<!--                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('AWS')"/>-->
+                                    <PolicyTable v-bind:iam_data="iam_data" policyType="AWS" managedBy="AWS" v-bind:managedPolicyNameMapping="getManagedPolicyNameMapping('AWS')"/>
                                     <br>
                                     <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS" managed-by="AWS"/>
                                 </div><!--/end AWS-MANAGED TAB-->
@@ -149,7 +149,7 @@
     import Principals from './components/Principals'
     import Guidance from './components/Guidance'
     import Glossary from './components/Glossary'
-    // import PolicyTable from './components/PolicyTable'
+    import PolicyTable from './components/PolicyTable'
     const managedPoliciesUtil = require('./util/managed-policies');
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
@@ -172,7 +172,7 @@
             Principals,
             Guidance,
             Glossary,
-            // PolicyTable
+            PolicyTable
         },
 
         data() {
