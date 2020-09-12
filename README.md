@@ -42,18 +42,22 @@ python3 main.py
 - [x] DataTables
 - [x] Markdown guidance - _DONE_
 - [x] _Navbar - DONE_
-- [ ] Checkbox selection of risk types
-- [ ] Fix underlying performance issues
-- [ ] Migrate to new cloudsplaining data output version, where customer-managed and AWS managed policies are separated
+- [x] Fix underlying performance issues
+- [x] Migrate to new cloudsplaining data output version, where customer-managed and AWS managed policies are separated
 
 #### Templating
 
 - [ ] Right now, the `App.vue` is configured to just include the `src/sampleData.js`, all the time. We don't want this. We want to be able to load the IAM data results in via Jinja after the fact. Need to figure out the best way to do this.
 
+#### Uplift items
+- [ ] Checkbox selection of risk types
+- [ ] Make the executive summary chart show Customer Managed vs AWS managed
+
 #### Not MVP
 
-- [ ] Fix vendor bundle naming
+- [ ] Fix vendor bundle naming?
   * The vendor JS bundle is currently leveraging a randomly generated name each time. I think this has to do with my webpack config. Need to fix that - we don't want it to be called `chunk-vendors.a60eac2b.js`.
+- [ ] Consider creating a separate "worksheet" report where it's basically Bootstrap Vue tables on crack
 
 #### Delivery related
 

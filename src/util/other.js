@@ -1,5 +1,31 @@
 'use strict';
 
+const policyViolations = (policies) => {
+    let [privEsc, dataExfil, resExposure, infraMod] = Array(4).fill(0);
+
+    Object.keys(policies).forEach((policyId) => {
+        if (policies[policyId]["PrivilegeEscalation"].length > 0){
+            privEsc += 1
+        }
+        if (policies[policyId]["DataExfiltration"].length > 0){
+            dataExfil += 1
+        }
+        if (policies[policyId]["ResourceExposure"].length > 0){
+            resExposure += 1
+        }
+        if (policies[policyId]["InfrastructureModification"].length > 0){
+            infraMod += 1
+        }
+    })
+
+    return {
+        "PrivilegeEscalation": privEsc,
+        "DataExfiltration": dataExfil,
+        "ResourceExposure": resExposure,
+        "InfrastructureModification": infraMod
+    }
+}
+
 function addSpacesInPascalCaseString(string) {
     string = string.replace(/([a-z])([A-Z])/g, '$1 $2');
     // console.log(string)
@@ -44,6 +70,7 @@ function compareValues(key, order = 'asc') {
   };
 }
 
+exports.policyViolations = policyViolations;
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
 exports.compareValues = compareValues;
 exports.removeDuplicatesFromArray = removeDuplicatesFromArray;

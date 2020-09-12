@@ -225,9 +225,6 @@
             iam_data: {
                 type: Object
             },
-            managedPolicyType: {
-                type: String
-            },
             riskDefinitions: {
                 type: Array
             },
