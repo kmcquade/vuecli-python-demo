@@ -4,10 +4,18 @@ const policyViolations = (policies) => {
     let [privEsc, dataExfil, resExposure, infraMod] = Array(4).fill(0);
 
     Object.keys(policies).forEach((policyId) => {
-        privEsc += policies[policyId]["PrivilegeEscalation"].length;
-        dataExfil += policies[policyId]["DataExfiltration"].length;
-        resExposure += policies[policyId]["ResourceExposure"].length;
-        infraMod += policies[policyId]["InfrastructureModification"].length;
+        if (policies[policyId]["PrivilegeEscalation"].length > 0){
+            privEsc += 1
+        }
+        if (policies[policyId]["DataExfiltration"].length > 0){
+            dataExfil += 1
+        }
+        if (policies[policyId]["ResourceExposure"].length > 0){
+            resExposure += 1
+        }
+        if (policies[policyId]["InfrastructureModification"].length > 0){
+            infraMod += 1
+        }
     })
 
     return {
@@ -36,6 +44,33 @@ function removeDuplicatesFromArray(someArray) {
     return uniqueArray;
 }
 
+function compareValues(key, order = 'asc') {
+    // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+  return function innerSort(a, b) {
+      // eslint-disable-next-line no-prototype-builtins
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+
+    const varA = (typeof a[key] === 'string')
+      ? a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string')
+      ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order === 'desc') ? (comparison * -1) : comparison
+    );
+  };
+}
+
 exports.policyViolations = policyViolations;
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
+exports.compareValues = compareValues;
 exports.removeDuplicatesFromArray = removeDuplicatesFromArray;

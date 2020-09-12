@@ -1,25 +1,30 @@
 'use strict';
 let roleUtils = require("./roles");
+var otherUtils = require("./other")
 
 function getInlinePolicyIds(iam_data) {
-    return Object.keys(iam_data["inline-policies"]);
+    return Object.keys(iam_data["inline_policies"]);
 }
 
 function getInlinePolicy(iam_data, policyId) {
-    return iam_data["inline-policies"][policyId];
+    return Object.assign(iam_data["inline_policies"][policyId]);
+}
+
+function getInlinePolicyName(iam_data, policyId) {
+    return iam_data["inline_policies"][policyId]["PolicyName"].slice();
 }
 
 function getInlinePolicyDocument(iam_data, policyId) {
-    return iam_data["inline-policies"][policyId]["PolicyDocument"];
+    return Object.assign(iam_data["inline_policies"][policyId]["PolicyDocument"]);
 }
 
 function getInlinePolicyFindings(iam_data, policyId, riskType) {
-    return iam_data["inline-policies"][policyId][riskType];
+    return Object.assign(iam_data["inline_policies"][policyId][riskType]);
 }
 
 function getServicesAffectedByInlinePolicy(iam_data, policyId) {
     let servicesAffected = [];
-    let actions = iam_data["inline-policies"][policyId]["InfrastructureModification"];
+    let actions = Array.from(iam_data["inline_policies"][policyId]["InfrastructureModification"]);
     if (actions.length > 0) {
         let action;
         for (action of actions) {
@@ -42,7 +47,7 @@ function getRolesLeveragingInlinePolicy(iam_data, policyId) {
     const rolesInQuestion = []
     for (let i = 0; i < roles.length; i++){
         let roleName = roles[i];
-        let inlinePolicies = iam_data["roles"][roleName]["inline_policies"];
+        let inlinePolicies = Object.assign(iam_data["roles"][roleName]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
             rolesInQuestion.push(roleName)
         }
@@ -57,7 +62,7 @@ function getGroupsLeveragingInlinePolicy(iam_data, policyId) {
     const groupsInQuestion = []
     for (let i = 0; i < groups.length; i++){
         let groupName = groups[i];
-        let inlinePolicies = iam_data["groups"][groupName]["inline_policies"];
+        let inlinePolicies = Object.assign(iam_data["groups"][groupName]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
             groupsInQuestion.push(groupName)
         }
@@ -72,7 +77,7 @@ function getUsersLeveragingInlinePolicy(iam_data, policyId) {
     const usersInQuestion = []
     for (let i = 0; i < users.length; i++){
         let userName = users[i];
-        let inlinePolicies = iam_data["users"][userName]["inline_policies"];
+        let inlinePolicies = Object.assign(iam_data["users"][userName]["inline_policies"]);
         if (Object.prototype.hasOwnProperty.call(inlinePolicies, policyId)) {
             usersInQuestion.push(userName)
         }
@@ -90,6 +95,16 @@ function getPrincipalTypeLeveragingInlinePolicy(iam_data, policyId, principalTyp
     if (principalType === "User") {
         return getUsersLeveragingInlinePolicy(iam_data, policyId)
     }
+}
+
+function getAllPrincipalTypesLeveragingInlinePolicy(iam_data, policyId){
+    let users;
+    let roles;
+    let groups;
+    users = getUsersLeveragingInlinePolicy(iam_data, policyId)
+    roles = getRolesLeveragingInlinePolicy(iam_data, policyId)
+    groups = getGroupsLeveragingInlinePolicy(iam_data, policyId)
+    return users.concat(groups, roles)
 }
 
 function inlinePolicyAssumableByComputeService(iam_data, policyId) {
@@ -114,6 +129,44 @@ function inlinePolicyAssumableByComputeService(iam_data, policyId) {
     }
 }
 
+function getInlinePolicyItems(iam_data, inlinePolicyIds) {
+    let items = [];
+    for (let policyId of inlinePolicyIds){
+        let policyName = getInlinePolicyName(iam_data, policyId);
+        let attachedToPrincipals = getAllPrincipalTypesLeveragingInlinePolicy(iam_data, policyId);
+        let services = getServicesAffectedByInlinePolicy(iam_data, policyId).length
+        let infrastructureModification = getInlinePolicyFindings(iam_data, policyId, "InfrastructureModification").length;
+        let privilegeEscalation = getInlinePolicyFindings(iam_data, policyId, "PrivilegeEscalation").length;
+        let resourceExposure = getInlinePolicyFindings(iam_data, policyId, "ResourceExposure").length;
+        let dataExfiltration = getInlinePolicyFindings(iam_data, policyId, "DataExfiltration").length;
+        let computeRole = inlinePolicyAssumableByComputeService(iam_data, policyId);
+        let item = {
+            policy_name: policyName,
+            attached_to_principals: attachedToPrincipals,
+            services: services,
+            privilege_escalation: privilegeEscalation,
+            resource_exposure: resourceExposure,
+            data_exfiltration: dataExfiltration,
+            infrastructure_modification: infrastructureModification,
+            compute_role: computeRole
+        }
+        items.push(item)
+    }
+    return items;
+}
+
+function getInlinePolicyNameMapping(iam_data) {
+    let managedPolicyIds = getInlinePolicyIds(iam_data);
+    let names = [];
+    let policyId;
+    for (policyId of managedPolicyIds) {
+        let policyName = iam_data["inline_policies"][policyId]["PolicyName"].slice();
+        names.push({policy_name: policyName, policy_id: policyId})
+    }
+    names.sort(otherUtils.compareValues("policy_name", "asc"));
+    return getInlinePolicyItems(iam_data, managedPolicyIds);
+}
+
 exports.getInlinePolicyIds = getInlinePolicyIds;
 exports.getInlinePolicy = getInlinePolicy;
 exports.getInlinePolicyDocument = getInlinePolicyDocument;
@@ -123,4 +176,7 @@ exports.getRolesLeveragingInlinePolicy = getRolesLeveragingInlinePolicy;
 exports.getGroupsLeveragingInlinePolicy = getGroupsLeveragingInlinePolicy;
 exports.getUsersLeveragingInlinePolicy = getUsersLeveragingInlinePolicy;
 exports.getPrincipalTypeLeveragingInlinePolicy = getPrincipalTypeLeveragingInlinePolicy;
+exports.getAllPrincipalTypesLeveragingInlinePolicy = getAllPrincipalTypesLeveragingInlinePolicy;
 exports.inlinePolicyAssumableByComputeService = inlinePolicyAssumableByComputeService;
+exports.getInlinePolicyItems = getInlinePolicyItems;
+exports.getInlinePolicyNameMapping = getInlinePolicyNameMapping;

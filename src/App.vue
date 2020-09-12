@@ -52,16 +52,22 @@
     <b-container class="mt-3 pb-3 report">
       <b-tabs v-model="activeSection" nav-class="d-none">
         <b-tab key="summary">
-          <Summary account-id="1234" v-bind:iam_data="iam_data" :policy-filter="policyFilter"/>
+          <Summary v-bind:iam_data="iam_data" :policy-filter="policyFilter"/>
         </b-tab>
         <b-tab key="custom-policies">
-          <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+          <h3>Customer-Managed Policies</h3>
+          <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('Customer')"/>
+          <ManagedPolicies v-bind:iam_data="iam_data" managedBy="Customer"/>
         </b-tab>
         <b-tab key="inline-policies">
+          <h3>Inline Policies</h3>
+          <PolicyTable v-bind:policyNameMapping="getInlinePolicyNameMapping()"/>
           <InlinePolicies v-bind:iam_data="iam_data"/>
         </b-tab>
         <b-tab key="aws-policies">
-          <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
+          <h3>AWS-Managed Policies</h3>
+          <PolicyTable v-bind:policyNameMapping="getManagedPolicyNameMapping('AWS')"/>
+          <ManagedPolicies v-bind:iam_data="iam_data" managedBy="AWS"/>
         </b-tab>
         <b-tab key="iam-principals">
           <Principals v-bind:iam_data="iam_data"/>
@@ -95,12 +101,21 @@ import InlinePolicies from './components/InlinePolicies'
 import Principals from './components/Principals'
 import Guidance from './components/Guidance'
 import Glossary from './components/Glossary'
-
+import PolicyTable from './components/PolicyTable'
+const managedPoliciesUtil = require('./util/managed-policies');
+const inlinePoliciesUtil = require('./util/inline-policies');
 // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
 // if (process.env.DEV_MODE) {
 // }
 
 const {iam_data} = require('./sampleData');
+function getManagedPolicyNameMapping(managedBy) {
+    return managedPoliciesUtil.getManagedPolicyNameMapping(iam_data, managedBy)
+}
+
+function getInlinePolicyNameMapping() {
+    return inlinePoliciesUtil.getInlinePolicyNameMapping(iam_data)
+}
 
 export default {
   name: 'App',
@@ -110,7 +125,8 @@ export default {
     InlinePolicies,
     Principals,
     Guidance,
-    Glossary
+    Glossary,
+    PolicyTable
   },
 
   data() {
@@ -125,8 +141,14 @@ export default {
       return this.sharedState
     }
   },
-  methods: {}
-  // delimiters: ['${', '}'],
+  methods: {
+    getManagedPolicyNameMapping: function (managedBy) {
+        return getManagedPolicyNameMapping(managedBy)
+    },
+    getInlinePolicyNameMapping: function () {
+        return getInlinePolicyNameMapping()
+    }
+  }
 }
 </script>
 

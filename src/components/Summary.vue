@@ -10,13 +10,14 @@
         <p>
           The assessment identifies where resource ARN constraints are not used and identifies other risks
           in IAM policies:
+        </p>
           <ul>
             <li>Privilege Escalation</li>
             <li>Resource Exposure</li>
             <li>Infrastructure Modification</li>
             <li>Data Exfiltration</li>
           </ul>
-
+        <p>
           Remediating these issues, where necessary, will help to limit the blast radius in the case of compromised AWS
           credentials.
         </p>
@@ -52,7 +53,7 @@
             <b-tr>
               <b-th>Data Exfiltration</b-th>
               <b-td>{{ policyRisks.DataExfiltration }}</b-td>
-              <b-td>low</b-td>
+              <b-td>med</b-td>
             </b-tr>
             <b-tr>
               <b-th>Resource Exposure</b-th>
@@ -73,16 +74,22 @@
 
   </div>
 </template>
-
 <script>
-import SummaryFindings from "@/components/charts/SummaryFindings";
+// var md = require('markdown-it')({
+//     html: true,
+//     linkify: true,
+//     typographer: true
+// });
+// import summaryRaw from "../assets/summary.md";
+import SummaryFindings from "./charts/SummaryFindings";
 
-import {policyViolations} from "@/util/other"
+// const summary = md.render(summaryRaw);
+
+import {policyViolations} from "../util/other"
 
 export default {
   name: "Summary",
   props: {
-    accountId: String,
     iam_data: Object,
     policyFilter: String
   },
@@ -90,11 +97,14 @@ export default {
     SummaryFindings
   },
   computed: {
+    // summary() {
+    //     return summary;
+    // },
     inlinePolicyRisks() {
-      return policyViolations(this.iam_data["inline-policies"])
+      return policyViolations(Object.assign(this.iam_data["inline_policies"]))
     },
     managedPolicyRisks() {
-      return policyViolations(this.iam_data["managed-policies"])
+      return policyViolations(Object.assign(this.iam_data["aws_managed_policies"], this.iam_data["customer_managed_policies"]))
     },
     policyRisks() {
 

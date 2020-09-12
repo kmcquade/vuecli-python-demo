@@ -11,7 +11,6 @@ For example, an AWS Lambda policy used as a simple service checking the configur
 
 
 As such, the tool aims to:
-##### triage-guidance-description-bullet-points">
 
 * Map out your risk landscape of IAM identity-based policies, enumerating the potential risks for a full IAM threat model
 * Identify where you can reduce the blast radius in the case of credentials compromise

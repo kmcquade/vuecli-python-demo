@@ -1,9 +1,18 @@
-The following table shows a list of IAM Policies that are currently used in the account. This report shows [Customer-Managed Policies](#customer-managed-policy), [Inline Policies](#inline-policy), and [AWS-Managed Policies](#aws-managed-policy).
+This report contains the security assessment results from [Cloudsplaining](https://github.com/salesforce/cloudsplaining) - a tool that helps manage your IAM risk landscape by scanning your AWS account and creating a risk-prioritized HTML report.
 
-If the policy contains IAM Actions - or combinations of actions - that fall under certain risk categories - [Privilege Escalation](#privilege-escalation "Privilege Escalation"), [Resource Exposure](#resource-exposure "Resource Exposure"), [Infrastructure Modification](#infrastructure-modification "Infrastructure Modification"), and [Data Exfiltration](#data-exfiltration "Data Exfiltration") - then the number of occurrences per-policy and per-risk is included in the table. **If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included in the findings.**
+The report shows the following:
 
-If an IAM Role leverages the given policy and is leveraged [by a Compute Service](#roles-assumable-by-compute-services) - like EC2 Instance Profiles for `ec2`, `ecs-tasks`, `lambda`, or `eks` - then that is indicated in the table as well.
 
-Each of the aforementioned attributes can be used to prioritize which risks to address first. For more information, see the [Prioritization Guidance](#remediation-prioritization) and [Triaging Considerations](#triage-triaging-considerations). Consider using all of the Guidance criteria when reviewing this report as well.
+* **High priority risks** in IAM policies, like Privilege Escalation, Resource Exposure, Infrastructure Modification, and Data Exfiltration.
+* **Violations of Least Privilege**: Identifies where resource ARN constraints are not used
+* **EC2 Instance Profile usage**: If a Compute Service role (like an EC2 instance profile) leverages the policy
 
-Note that policies or IAM Principals excluded from the scan will not show up in the table at all. Please refer to the [Exclusions configuration](#exclusions) to see which ones were excluded. To view the list of IAM Principals and their associated policies, see the [IAM Principals Tab](#nav-principals).
+* **Policies view:** Shows all policy types ([Customer-Managed Policies](#customer-managed-policy), [Inline Policies](#inline-policy), and [AWS-Managed Policies](#aws-managed-policy)) and their associated findings
+
+* **Principals view**: To view the list of IAM Principals and their associated policies, see the [IAM Principals Tab](#nav-principals).
+
+* **Exclusions**: Considers user-supplied exclusions from the command line arguments. If there are no findings for a particular policy, or if the policy is not attached to any IAM Principals, then the policy is not included. Please refer to the [Exclusions configuration](#exclusions) to see which ones were excluded.
+
+* **Extensive Triaging and Remediation Guidance**: For more information, see the [Prioritization Guidance](#remediation-prioritization) and [Triaging Considerations](#triage-triaging-considerations). Consider using all of the Guidance criteria when reviewing this report as well.
+
+Remediating these issues, where appropriate, will help to limit the blast radius in the case of compromised AWS credentials.
