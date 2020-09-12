@@ -1,183 +1,141 @@
-<!-- Load required Bootstrap and BootstrapVue CSS -->
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
-
-<!-- Load the following for BootstrapVueIcons support -->
-<!--  Bootstrap-->
-
 <template>
-    <div id="app">
-        <div class="row">
-            <div class="container">
-                <nav id="navbar" class="navbar navbar-expand-sm sticky-top navbar-light bg-light">
-                    <div class="navbar nav nav-tabs" id="nav-tab" role="tablist">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="#">Cloudsplaining</a>
-                        </div>
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-item nav-link active" id="nav-summary-tab" data-toggle="tab"
-                                   href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Summary</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-customer-managed-tab" data-toggle="tab"
-                                   href="#nav-customer-managed" role="tab" aria-controls="nav-customer-managed"
-                                   aria-selected="false">Customer policies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-inline-policies-tab" data-toggle="tab"
-                                   href="#nav-inline-policies" role="tab" aria-controls="nav-inline-policies"
-                                   aria-selected="false">Inline policies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-aws-managed-tab" data-toggle="tab"
-                                   href="#nav-aws-managed" role="tab" aria-controls="nav-aws-managed"
-                                   aria-selected="false">AWS policies</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-principals-tab" data-toggle="tab"
-                                   href="#nav-principals" role="tab" aria-controls="nav-principals"
-                                   aria-selected="false">IAM Principals</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-guidance-tab" data-toggle="tab"
-                                   href="#nav-guidance" role="tab" aria-controls="nav-guidance"
-                                   aria-selected="false">Guidance</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-item nav-link" id="nav-appendices-tab" data-toggle="tab"
-                                   href="#nav-appendices" role="tab" aria-controls="nav-appendices"
-                                   aria-selected="false">Appendices</a>
-                            </li>
-                            <!--GUIDANCE DROPDOWN-->
-<!--                            <li class="nav-item dropdown">-->
-<!--                                <a class="nav-link dropdown-toggle" id="nav-guidance-tab" data-toggle="dropdown"-->
-<!--                                   href="#" role="button" aria-haspopup="true" aria-expanded="false">Guidance</a>-->
-<!--                                <div class="dropdown-menu">-->
-<!--                                    &lt;!&ndash;Triage Guidance&ndash;&gt;-->
-<!--                                    <a class="dropdown-item" href="#triage-guidance"><b>Triaging</b></a>-->
-<!--                                </div>-->
-<!--                            </li>-->
-                            <!--APPENDICES DROPDOWN-->
-<!--                            <li class="nav-item dropdown">-->
-<!--                                <a class="nav-link dropdown-toggle" id="nav-appendices-tab" data-toggle="dropdown"-->
-<!--                                   href="#" role="tab" aria-haspopup="true" aria-expanded="false">Appendices</a>-->
-<!--                                <div class="dropdown-menu">-->
-<!--                                    <a class="dropdown-item" href="#appendices"><b>Appendix</b></a>-->
-<!--                                </div>-->
-<!--                            </li>-->
-                        </ul><!--/end navbar list-->
-                    </div><!-- /end navbar container -->
-                </nav><!-- /end navbar -->
+  <div id="main">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div data-spy="scroll" data-target="#navbar" data-offset="50">
-                            <div class="tab-content" id="nav-tabContent">
+      <b-navbar toggleable="md" variant="faded">
+        <b-navbar-brand href="#" @click="activeSection = 0">
+          <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">
+          Cloudsplaining
+        </b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-                                <!--EXECUTIVE SUMMARY TAB-->
-                                <div class="tab-pane fade show active" id="nav-summary" role="tabpanel"
-                                     aria-labelledby="nav-summary-tab">
-                                    <br>
-                                    <Summary account-id="1234"/>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item
+                :active="activeSection === 'custom-policies'"
+                @click="activeSection = 1"
+                href="#">Customer Policies
+            </b-nav-item>
+            <b-nav-item
+                :active="activeSection === 'inline-policies'"
+                @click="activeSection = 2"
+                href="#">Inline Policies
+            </b-nav-item>
+            <b-nav-item
+                :active="activeSection === 'aws-policies'"
+                @click="activeSection = 3"
+                href="#">AWS Policies
+            </b-nav-item>
+            <b-nav-item
+                :active="activeSection === 'iam-principals'"
+                @click="activeSection = 4"
+                href="#">IAM Principals
+            </b-nav-item>
+            <b-nav-item
+                :active="activeSection === 'guidance'"
+                @click="activeSection = 5"
+                href="#">Guidance
+            </b-nav-item>
+            <b-nav-item
+                :active="activeSection === 'appendices'"
+                @click="activeSection = 6"
+                href="#">Appendices
+            </b-nav-item>
 
-                                </div><!--/END SUMMARY TAB-->
-                                <!--PRINCIPALS TAB-->
-                                <div class="tab-pane fade" id="nav-principals" role="tabpanel"
-                                     aria-labelledby="nav-principals-tab">
-                                    <br>
-                                    <Principals v-bind:iam_data="iam_data"/>
 
-                                </div><!--/end PRINCIPALS TAB-->
-                                <!--CUSTOMER-MANAGED TAB-->
-                                <div class="tab-pane fade" id="nav-customer-managed" role="tabpanel"
-                                     aria-labelledby="nav-customer-managed-tab">
-                                    <br>
-                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+          </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-text><strong>Account ID</strong> 123456789012</b-nav-text>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
 
-                                </div><!--/end CUSTOMER-MANAGED TAB-->
-                                <!--Inline policies TAB-->
-                                <div class="tab-pane fade" id="nav-inline-policies" role="tabpanel"
-                                     aria-labelledby="nav-inline-policies-tab">
-                                    <br>
-                                    <InlinePolicies v-bind:iam_data="iam_data"/>
+    <b-container class="mt-3 pb-3 report">
+      <b-tabs v-model="activeSection" nav-class="d-none">
+        <b-tab key="summary">
+          <Summary account-id="1234" v-bind:iam_data="iam_data" :policy-filter="policyFilter"/>
+        </b-tab>
+        <b-tab key="custom-policies">
+          <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="Customer"/>
+        </b-tab>
+        <b-tab key="inline-policies">
+          <InlinePolicies v-bind:iam_data="iam_data"/>
+        </b-tab>
+        <b-tab key="aws-policies">
+          <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
+        </b-tab>
+        <b-tab key="iam-principals">
+          <Principals v-bind:iam_data="iam_data"/>
+        </b-tab>
+        <b-tab key="guidance">
+          <Guidance/>
+        </b-tab>
+        <b-tab id="appendices">
+          <Glossary/>
+        </b-tab>
 
-                                </div><!--/end CUSTOMER-MANAGED TAB-->
-                                <!--AWS-MANAGED TAB-->
-                                <div class="tab-pane fade" id="nav-aws-managed" role="tabpanel"
-                                     aria-labelledby="nav-aws-managed-tab">
-                                    <br>
-                                    <ManagedPolicies v-bind:iam_data="iam_data" managedPolicyType="AWS"/>
-                                </div><!--/end AWS-MANAGED TAB-->
 
-                                <div class="tab-pane fade" id="nav-guidance" role="tabpanel" aria-labelledby="nav-guidance-tab">
-                                <Guidance />
-                                </div>
-                                <div class="tab-pane fade" id="nav-appendices" role="tabpanel" aria-labelledby="nav-appendices-tab">
-                                    <br>
-                                    <Glossary />
-                                </div>
-                            </div><!--/end Tab content-->
-
-                        </div><!--/end data spy-->
-                        <br><hr><br>
-                        <Glossary />
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      </b-tabs>
+    </b-container>
+    <b-container>
+      <b-row class="mt-5">
+        <b-col class="text-center text-muted">
+          Report Generated: 2020-08-06 &diamond;
+          Cloudsplaining version:
+          <b-link href="https://github.com/salesforce/cloudsplaining">0.1.6</b-link>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
-    import Summary from './components/Summary.vue';
-    import ManagedPolicies from './components/ManagedPolicies';
-    import InlinePolicies from './components/InlinePolicies'
-    import Principals from './components/Principals'
-    import Guidance from './components/Guidance'
-    import Glossary from './components/Glossary'
+import Summary from './components/Summary.vue';
+import ManagedPolicies from './components/ManagedPolicies';
+import InlinePolicies from './components/InlinePolicies'
+import Principals from './components/Principals'
+import Guidance from './components/Guidance'
+import Glossary from './components/Glossary'
 
-    // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
-    // if (process.env.DEV_MODE) {
-    // }
+// This conditionally loads the local sample data if you are developing, but not if you are viewing the report
+// if (process.env.DEV_MODE) {
+// }
 
-    var sampleData = require('./sampleData');
-    let iam_data = sampleData.iam_data;
+const {iam_data} = require('./sampleData');
 
-    export default {
-        name: 'App',
-        components: {
-            Summary,
-            ManagedPolicies,
-            InlinePolicies,
-            Principals,
-            Guidance,
-            Glossary
-        },
+export default {
+  name: 'App',
+  components: {
+    Summary,
+    ManagedPolicies,
+    InlinePolicies,
+    Principals,
+    Guidance,
+    Glossary
+  },
 
-        data() {
-            return {
-                sharedState: iam_data,
-            };
-        },
-        computed: {
-            iam_data() {
-                return this.sharedState
-            }
-        },
-        methods: {}
-        // delimiters: ['${', '}'],
+  data() {
+    return {
+      sharedState: iam_data,
+      policyFilter: "none",
+      activeSection: 0
+    };
+  },
+  computed: {
+    iam_data() {
+      return this.sharedState
     }
+  },
+  methods: {}
+  // delimiters: ['${', '}'],
+}
 </script>
 
 <style>
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: left;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
+#main {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #2c3e50;
+}
 </style>
