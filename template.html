@@ -22,6 +22,16 @@
 <div id="app"></div>
 <!-- built files will be auto injected -->
 <script>
+    let account_id = "{{ t.account_id }}";
+    let account_name = "{{ t.account_name }}";
+    let report_generated_time = "{{ t.report_generated_time }}";
+    let cloudsplaining_version = "{{ t.cloudsplaining_version }}";
+</script>
+<script>
+    {{ t.results }}
+</script>
+
+<script>
     {{ t.vendor_bundle_js }}
 </script>
 <script>

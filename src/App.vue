@@ -85,7 +85,7 @@
                 </b-tab>
                 <b-tab key="task-table">
                     <br>
-                    <h3>Task Table Demo</h3>
+                    <h3>Tasks (demo WIP)</h3>
                     <br>
                     <!--          <h3>Customer-Managed Policies</h3>-->
                     <!--          <TaskTable managedBy="Customer" v-bind:items_mapping="getTaskTableMapping('Customer')"/>-->
@@ -126,21 +126,34 @@
     const managedPoliciesUtil = require('./util/managed-policies');
     const inlinePoliciesUtil = require('./util/inline-policies');
     const taskTableUtil = require('./util/task-table');
-    // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
-    // if (process.env.DEV_MODE) {
-    // }
 
-    const {iam_data} = require('./sampleData');
+    console.log(process.env.NODE_ENV)
+    console.log(process.env.VUE_APP_TITLE)
+
+    // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
+    if (process.env.NODE_ENV === "development") {
+        // eslint-disable-next-line no-unused-vars
+        const {iam_data} = require('./sampleData');
+    }
+    else if (process.env.NODE_ENV === "production") {
+        // This will get filled in by the template
+        // eslint-disable-next-line no-unused-vars
+        // let iam_data;
+    }
+
 
     function getManagedPolicyNameMapping(managedBy) {
+        // eslint-disable-next-line no-undef
         return managedPoliciesUtil.getManagedPolicyNameMapping(iam_data, managedBy)
     }
 
     function getInlinePolicyNameMapping() {
+        // eslint-disable-next-line no-undef
         return inlinePoliciesUtil.getInlinePolicyNameMapping(iam_data)
     }
 
     function getTaskTableMapping(managedBy) {
+        // eslint-disable-next-line no-undef
         return taskTableUtil.getTaskTableMapping(iam_data, managedBy)
     }
 
@@ -160,6 +173,7 @@
 
         data() {
             return {
+                // eslint-disable-next-line no-undef
                 sharedState: iam_data,
                 policyFilter: "none",
                 activeSection: 0

@@ -4,6 +4,9 @@ node_modules
 venv/*
 tmp/*
 
+private.html
+private/*
+
 *.js.map
 
 # local env files

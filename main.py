@@ -1,6 +1,7 @@
 import os
 import datetime
 import webbrowser
+import json
 from jinja2 import Environment, FileSystemLoader
 
 __version__ = "0.2.0"
@@ -31,6 +32,29 @@ class HTMLReport:
         self.account_name = account_name
         self.account_id = account_id
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
+        # For testing out private data - just to make sure it works without the sampleData
+        if os.getenv("PRIVATE"):
+            results_file_path = os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "private",
+                    "demo.json",
+                )
+            )
+        else:
+            results_file_path = os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "example-iam-data.json",
+            )
+        )
+        with open(results_file_path, 'r') as json_file:
+            results = json.load(json_file)
+
+        self.results = f"let iam_data = {json.dumps(results)}"
+        # # Otherwise, use the sample data
+        # else:
+        #     self.results = "console.log('loading sample data for sample report')"
 
         with open(app_bundle_path, "r") as f:
             self.app_bundle = f.read()
@@ -42,9 +66,11 @@ class HTMLReport:
         template_contents = dict(
             vendor_bundle_js=self.vendor_bundle,
             app_bundle_js=self.app_bundle,
+            # results
+            results=self.results,
             # account metadata
-            account_name=self.account_name,
             account_id=self.account_id,
+            account_name=self.account_name,
             report_generated_time=self.report_generated_time,
             cloudsplaining_version=__version__,
         )
@@ -55,7 +81,10 @@ class HTMLReport:
 
 
 def generate_html_report():
-    test_report_path = os.path.join(os.getcwd(), "index.html")
+    if os.getenv("PRIVATE"):
+        test_report_path = os.path.join(os.getcwd(), "private.html")
+    else:
+        test_report_path = os.path.join(os.getcwd(), "index.html")
 
     html_report = HTMLReport(
         account_id="123456789123",
