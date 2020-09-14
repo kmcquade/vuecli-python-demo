@@ -3,7 +3,7 @@ var sampleData = require('./../sampleData');
 let mocha = require('mocha');
 let chai = require('chai');
 let it = mocha.it;
-let iam_data = sampleData.iam_data;
+let iam_data = sampleData.sample_iam_data;
 
 it("inlinePolicies.getInlinePolicyDocument: should return Inline policy document object", function () {
     var result = inlinePolicies.getInlinePolicyDocument(iam_data, "9dfb8b36ce6c68a741355e7a2ab5ee62a47755f8f25d68e4fa6f87dabc036986");

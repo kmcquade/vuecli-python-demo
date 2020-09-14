@@ -4,7 +4,7 @@ var sampleData = require('./../sampleData');
 let mocha = require('mocha');
 let chai = require('chai');
 let it = mocha.it;
-let iam_data = sampleData.iam_data;
+let iam_data = sampleData.sample_iam_data;
 
 it("principals.getPrincipalMetadata: should return principal object", function () {
     var result = principals.getPrincipalMetadata(iam_data, "admin", "Group");
