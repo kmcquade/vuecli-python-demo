@@ -4,7 +4,7 @@ import webbrowser
 import json
 from jinja2 import Environment, FileSystemLoader
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 app_bundle_path = os.path.join(os.path.dirname(__file__), "dist", "app.bundle.js")
@@ -28,34 +28,14 @@ def get_vendor_bundle_path():
 
 
 class HTMLReport:
-    def __init__(self, account_id, account_name):
+    def __init__(self, account_id, account_name, results_file):
         self.account_name = account_name
         self.account_id = account_id
         self.report_generated_time = datetime.datetime.now().strftime("%Y-%m-%d")
-        # For testing out private data - just to make sure it works without the sampleData
-        if os.getenv("PRIVATE"):
-            results_file_path = os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "private",
-                    "demo.json",
-                )
-            )
-        else:
-            results_file_path = os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    "example-iam-data.json",
-            )
-        )
-        with open(results_file_path, 'r') as json_file:
+        with open(results_file, 'r') as json_file:
             results = json.load(json_file)
 
-        self.results = f"let iam_data = {json.dumps(results)}"
-        # # Otherwise, use the sample data
-        # else:
-        #     self.results = "console.log('loading sample data for sample report')"
-
+        self.results = f"var iam_data = {json.dumps(results)}"
         with open(app_bundle_path, "r") as f:
             self.app_bundle = f.read()
         vendor_bundle_path = get_vendor_bundle_path()
@@ -71,7 +51,7 @@ class HTMLReport:
             # account metadata
             account_id=self.account_id,
             account_name=self.account_name,
-            report_generated_time=self.report_generated_time,
+            report_generated_time=str(self.report_generated_time),
             cloudsplaining_version=__version__,
         )
         template_path = os.path.join(os.path.dirname(__file__))
@@ -83,17 +63,33 @@ class HTMLReport:
 def generate_html_report():
     if os.getenv("PRIVATE"):
         test_report_path = os.path.join(os.getcwd(), "private.html")
+        results_file_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "private",
+                "private.json",
+            )
+        )
+        print(f"The environment variable 'PRIVATE' is set to {os.getenv('PRIVATE')}")
+        print(f"Leveraging the file {results_file_path}")
     else:
         test_report_path = os.path.join(os.getcwd(), "index.html")
-
+        results_file_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "example-iam-data.json",
+            )
+        )
+        print(f"Leveraging the file {results_file_path}")
     html_report = HTMLReport(
-        account_id="123456789123",
-        account_name="Demo"
+        account_id="987654321987",
+        account_name="Demo",
+        results_file=results_file_path
     )
     rendered_report = html_report.get_html_report()
     with open(test_report_path, "w") as file:
         file.write(rendered_report)
-    print("Opening the HTML report")
+    print(f"Opening the HTML report at {test_report_path}")
     url = "file://%s" % os.path.abspath(test_report_path)
     webbrowser.open(url, new=2)
 

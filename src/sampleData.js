@@ -1,4 +1,4 @@
-let iam_data = {
+var sample_iam_data = {
   "groups": {
     "admin": {
       "arn": "arn:aws:iam::012345678901:group/admin",
@@ -13092,4 +13092,4 @@ let iam_data = {
 }
 
 
-exports.iam_data = iam_data;
+exports.sample_iam_data = sample_iam_data;
