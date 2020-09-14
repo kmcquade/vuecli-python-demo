@@ -34,6 +34,15 @@ function addSpacesInPascalCaseString(string) {
     return string;
 }
 
+function convertStringToSnakeCase(string) {
+    const toSnakeCase = str =>
+    str &&
+    str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        .map(x => x.toLowerCase())
+        .join('_');
+    return toSnakeCase(string)
+}
+
 function removeDuplicatesFromArray(someArray) {
     let uniqueArray = [];
     someArray.forEach((c) => {
@@ -74,3 +83,4 @@ exports.policyViolations = policyViolations;
 exports.addSpacesInPascalCaseString = addSpacesInPascalCaseString;
 exports.compareValues = compareValues;
 exports.removeDuplicatesFromArray = removeDuplicatesFromArray;
+exports.convertStringToSnakeCase = convertStringToSnakeCase;

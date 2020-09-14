@@ -13,6 +13,37 @@ function getManagedPolicyIds(iam_data, managedBy) {
     return result;
 }
 
+function getManagedPolicyIdsInUse(iam_data, managedBy) {
+    let result = [];
+    let policyIds = [];
+    if (managedBy === "AWS") {
+        policyIds = Array.from(Object.keys(iam_data["aws_managed_policies"]));
+    } else if (managedBy === "Customer") {
+        policyIds = Array.from(Object.keys(iam_data["customer_managed_policies"]));
+    }
+    for(let i = 0; i < policyIds.length; i++){
+        let leveraged = isManagedPolicyLeveraged(iam_data, managedBy, policyIds[i])
+        if (leveraged > 0) {
+            if (getManagedPolicyFindings(iam_data, managedBy, policyIds[i], "InfrastructureModification").length === 0) {
+                console.log(`Policy ID ${policyIds[i]} does not have any findings; excluding from report findings`);
+            } else {
+                result.push(policyIds[i].slice())
+            }
+        } else {
+            // console.log(`Policy ID ${policyIds[i]} is not used; excluding from report findings`);
+        }
+    }
+    return Array.from(result);
+}
+
+
+function isManagedPolicyLeveraged(iam_data, managedBy, policyId) {
+    let groupCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'Group').length;
+    let userCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'User').length;
+    let roleCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'Role').length;
+    return groupCount + userCount + roleCount
+}
+
 // function getManagedPolicyNames(iam_data, managedBy) {
 //     let managedPolicyIds = getManagedPolicyIds(iam_data);
 //     let names = [];
@@ -165,13 +196,6 @@ function getAllPrincipalsLeveragingManagedPolicy(iam_data, managedBy, policyId) 
     return users.concat(groups, roles)
 }
 
-function isManagedPolicyLeveraged(iam_data, managedBy, policyId) {
-    let groupCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'Group').length;
-    let userCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'User').length;
-    let roleCount = getPrincipalTypeLeveragingManagedPolicy(iam_data, managedBy, policyId, 'Role').length;
-    return groupCount + userCount + roleCount
-}
-
 function managedPolicyAssumableByComputeService(iam_data, managedBy, policyId) {
     let roles = getRolesLeveragingManagedPolicy(iam_data, managedBy, policyId)
     if (!roles.length > 0){
@@ -223,7 +247,7 @@ function getManagedPolicyItems(iam_data, managedBy, managedPolicyIds) {
 }
 
 function getManagedPolicyNameMapping(iam_data, managedBy) {
-    let managedPolicyIds = getManagedPolicyIds(iam_data, managedBy);
+    let managedPolicyIds = getManagedPolicyIdsInUse(iam_data, managedBy);
     let names = [];
     let policyId;
     for (policyId of managedPolicyIds) {
@@ -240,6 +264,7 @@ function getManagedPolicyNameMapping(iam_data, managedBy) {
 }
 
 exports.getManagedPolicyIds = getManagedPolicyIds;
+exports.getManagedPolicyIdsInUse = getManagedPolicyIdsInUse;
 exports.getManagedPolicyFindings = getManagedPolicyFindings;
 exports.getManagedPolicy = getManagedPolicy;
 exports.getManagedPolicyDocument = getManagedPolicyDocument;
