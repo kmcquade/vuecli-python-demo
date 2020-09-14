@@ -5,7 +5,7 @@ var sampleData = require('./../sampleData')
 let mocha = require('mocha');
 let chai = require('chai');
 let it = mocha.it;
-let iam_data = sampleData.iam_data;
+let iam_data = sampleData.sample_iam_data;
 
 
 it("groups.getGroupNames: should return list of group names", function () {

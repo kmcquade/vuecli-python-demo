@@ -8,29 +8,44 @@
     <!-- Load required Bootstrap and BootstrapVue CSS -->
     <!--Bootstrap theme-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.css" crossorigin="anonymous"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.css"
+          crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.16.0/bootstrap-vue.min.js"
+            crossorigin="anonymous"></script>
 
     <!-- JQuery-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!--    <script type="application/javascript">-->
+<!--    </script>-->
 
 </head>
 <body>
 <div id="app"></div>
 <!-- built files will be auto injected -->
-<script>
-    let account_id = "{{ t.account_id }}";
-    let account_name = "{{ t.account_name }}";
-    let report_generated_time = "{{ t.report_generated_time }}";
-    let cloudsplaining_version = "{{ t.cloudsplaining_version }}";
-</script>
-<script>
-    {{ t.results }}
-</script>
 
+    <script>
+        var isLocalExample = false;
+        var account_id;
+        var account_name;
+        var report_generated_time;
+        var cloudsplaining_version;
+        account_id = "{{ t.account_id }}";
+        account_name = "{{ t.account_name }}";
+        report_generated_time = "{{ t.report_generated_time }}";
+        cloudsplaining_version = "{{ t.cloudsplaining_version }}";
+
+        {{ t.results }}
+
+        console.log(account_id);
+        console.log(isLocalExample);
+        console.log(`iam data keys: ${Object.keys(iam_data)}`);
+
+    </script>
 <script>
     {{ t.vendor_bundle_js }}
 </script>

@@ -38,7 +38,8 @@
                     small
             >
               <template v-slot:cell(attached_to_principals)="data">
-                {{ data.item.attached_to_principals.join(", ") }}
+                {{ data.item.attached_to_principals.length }}
+                <!--{{ data.item.attached_to_principals.join(", ") }}-->
               </template>
 
               <template v-slot:cell(compute_role)="data">

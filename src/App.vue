@@ -49,7 +49,7 @@
 
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
-                    <b-nav-text><strong>Account ID</strong> 123456789012</b-nav-text>
+                    <b-nav-text><strong>Account ID:</strong> {{ account_id }} | <strong>Account Name:</strong> {{ account_name }}</b-nav-text>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -104,9 +104,9 @@
         <b-container>
             <b-row class="mt-5">
                 <b-col class="text-center text-muted">
-                    Report Generated: 2020-08-06 &diamond;
+                    Report Generated: {{ report_generated_time }} &diamond;
                     Cloudsplaining version:
-                    <b-link href="https://github.com/salesforce/cloudsplaining">0.1.6</b-link>
+                    <b-link href="https://github.com/salesforce/cloudsplaining">{{ cloudsplaining_version }}</b-link>
                 </b-col>
             </b-row>
         </b-container>
@@ -126,20 +126,37 @@
     const managedPoliciesUtil = require('./util/managed-policies');
     const inlinePoliciesUtil = require('./util/inline-policies');
     const taskTableUtil = require('./util/task-table');
+    const sampleData = require('./sampleData');
 
-    console.log(process.env.NODE_ENV)
-    console.log(process.env.VUE_APP_TITLE)
+    console.log(`process.env.NODE_ENV: ${process.env.NODE_ENV}`)
 
     // This conditionally loads the local sample data if you are developing, but not if you are viewing the report
-    if (process.env.NODE_ENV === "development") {
-        // eslint-disable-next-line no-unused-vars
-        const {iam_data} = require('./sampleData');
+
+    // eslint-disable-next-line no-undef
+    if ((process.env.NODE_ENV === "development") || (isLocalExample === true)) {
+        // eslint-disable-next-line no-undef
+        console.log(`isLocalExample is set to: ${isLocalExample}`)
+        console.log(`Note: a report generated with the Python template will not have isLocalExample set to True, because that uses a separate template.html file, which has isLocalExample set to False.`)
+        // eslint-disable-next-line no-unused-vars,no-undef
+        iam_data = sampleData.sample_iam_data;
+        // eslint-disable-next-line no-undef
+        console.log(`IAM Data keys: ${Object.keys(iam_data)}`);
+        // eslint-disable-next-line no-unused-vars,no-undef
+        account_id = "12345678912";
+        // eslint-disable-next-line no-unused-vars,no-undef
+        account_name = "example";
+        // eslint-disable-next-line no-unused-vars,no-undef
+        report_generated_time = "2020-09-01";
+        // eslint-disable-next-line no-unused-vars,no-undef
+        cloudsplaining_version = "0.2.0";
     }
-    else if (process.env.NODE_ENV === "production") {
-        // This will get filled in by the template
-        // eslint-disable-next-line no-unused-vars
-        // let iam_data;
+    else {
+        // eslint-disable-next-line no-undef
+        console.log(`isLocalExample is set to: ${isLocalExample}`)
     }
+
+    // eslint-disable-next-line no-undef
+    console.log(`IAM Data keys: ${iam_data}`);
 
 
     function getManagedPolicyNameMapping(managedBy) {
@@ -176,7 +193,15 @@
                 // eslint-disable-next-line no-undef
                 sharedState: iam_data,
                 policyFilter: "none",
-                activeSection: 0
+                activeSection: 0,
+                // eslint-disable-next-line no-undef
+                account_id: account_id,
+                // eslint-disable-next-line no-undef
+                account_name: account_name,
+                // eslint-disable-next-line no-undef
+                report_generated_time: report_generated_time,
+                // eslint-disable-next-line no-undef
+                cloudsplaining_version: cloudsplaining_version,
             };
         },
         computed: {
