@@ -11,7 +11,7 @@ it("taskTable.getTaskTableManagedPolicyItems: should give us the object to feed 
     console.log(`Result: ${JSON.stringify(result.length)}`);
     // console.log(`Result: ${JSON.stringify(result, undefined, 4)}`);
     // console.log(`Result: ${JSON.stringify(result)}`);
-    chai.assert(result.length === 3, "The object should have a size of 3")
+    chai.assert(result.length === 2, "The object should have a size of 3")
 });
 //
 // it("taskTable.getTaskTableMapping: should give us the object to feed into the task table for managed policies", function() {
